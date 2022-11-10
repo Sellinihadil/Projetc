@@ -6,9 +6,11 @@ typedef struct {
 	enum Sexe sexe;
 	char login[30];
 	char password[30];
-	int vote;
 	int bureau;
-
 } user;
+typedef struct {
+struct user utilisateur;
+int vote;
+}electeur;
 
 
