@@ -1,14 +1,29 @@
-typedef struct {
+typedef struct Date Date;
+struct  Date{ 
+	unsigned int jour;
+	unsigned int mois;
+	unsigned int annee;
+}; 
+
+typedef struct user user ;
+struct user {
 	char nom[30];
 	char prenom[30];
-	int cin;
+	unsigned int cin;
 	struct Date naissance;
-	enum Sexe sexe;
+	int sexe;
 	char login[30];
 	char password[30];
-	int vote;
-	int bureau;
+	unsigned int bureau;
+	unsigned int vote;
+} ;
 
-} user;
+int ajouter(char * filename, user u );
+int modifier( char * filename, int id, user* nouv );
+int supprimer_utilisateur(char * utilisateurs, int id);
+user chercher_utilisateur(char * utilisateurs, int id);
+
+
+
 
 
