@@ -32,12 +32,13 @@ create_login_window (void)
   GtkWidget *login_window;
   GtkWidget *fixed1;
   GtkWidget *vseparator1;
-  GtkWidget *Login;
-  GtkWidget *mot_de_passe;
+  GtkWidget *login;
+  GtkWidget *mdp;
   GtkWidget *labellogin;
   GtkWidget *label2;
-  GtkWidget *button1;
   GtkWidget *label3;
+  GtkWidget *connecter;
+  GtkWidget *message_login;
 
   login_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_size_request (login_window, 496, 376);
@@ -55,17 +56,17 @@ create_login_window (void)
   gtk_fixed_put (GTK_FIXED (fixed1), vseparator1, 504, 0);
   gtk_widget_set_size_request (vseparator1, 5, 1000);
 
-  Login = gtk_entry_new ();
-  gtk_widget_show (Login);
-  gtk_fixed_put (GTK_FIXED (fixed1), Login, 104, 144);
-  gtk_widget_set_size_request (Login, 300, 30);
-  gtk_entry_set_invisible_char (GTK_ENTRY (Login), 8226);
+  login = gtk_entry_new ();
+  gtk_widget_show (login);
+  gtk_fixed_put (GTK_FIXED (fixed1), login, 104, 144);
+  gtk_widget_set_size_request (login, 300, 30);
+  gtk_entry_set_invisible_char (GTK_ENTRY (login), 8226);
 
-  mot_de_passe = gtk_entry_new ();
-  gtk_widget_show (mot_de_passe);
-  gtk_fixed_put (GTK_FIXED (fixed1), mot_de_passe, 104, 224);
-  gtk_widget_set_size_request (mot_de_passe, 300, 30);
-  gtk_entry_set_invisible_char (GTK_ENTRY (mot_de_passe), 8226);
+  mdp = gtk_entry_new ();
+  gtk_widget_show (mdp);
+  gtk_fixed_put (GTK_FIXED (fixed1), mdp, 104, 224);
+  gtk_widget_set_size_request (mdp, 300, 30);
+  gtk_entry_set_invisible_char (GTK_ENTRY (mdp), 8226);
 
   labellogin = gtk_label_new (_("Login "));
   gtk_widget_show (labellogin);
@@ -77,27 +78,37 @@ create_login_window (void)
   gtk_fixed_put (GTK_FIXED (fixed1), label2, 104, 192);
   gtk_widget_set_size_request (label2, 104, 16);
 
-  button1 = gtk_button_new_with_mnemonic (_("Se connecter"));
-  gtk_widget_show (button1);
-  gtk_fixed_put (GTK_FIXED (fixed1), button1, 184, 296);
-  gtk_widget_set_size_request (button1, 128, 40);
-
   label3 = gtk_label_new (_("<b>S'authentifier </b>"));
   gtk_widget_show (label3);
   gtk_fixed_put (GTK_FIXED (fixed1), label3, 0, 32);
   gtk_widget_set_size_request (label3, 496, 40);
   gtk_label_set_use_markup (GTK_LABEL (label3), TRUE);
 
+  connecter = gtk_button_new_with_mnemonic (_("Se connecter"));
+  gtk_widget_show (connecter);
+  gtk_fixed_put (GTK_FIXED (fixed1), connecter, 184, 296);
+  gtk_widget_set_size_request (connecter, 128, 40);
+
+  message_login = gtk_label_new ("");
+  gtk_widget_show (message_login);
+  gtk_fixed_put (GTK_FIXED (fixed1), message_login, 112, 264);
+  gtk_widget_set_size_request (message_login, 280, 32);
+
+  g_signal_connect ((gpointer) connecter, "clicked",
+                    G_CALLBACK (on_connecter_clicked),
+                    NULL);
+
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (login_window, login_window, "login_window");
   GLADE_HOOKUP_OBJECT (login_window, fixed1, "fixed1");
   GLADE_HOOKUP_OBJECT (login_window, vseparator1, "vseparator1");
-  GLADE_HOOKUP_OBJECT (login_window, Login, "Login");
-  GLADE_HOOKUP_OBJECT (login_window, mot_de_passe, "mot_de_passe");
+  GLADE_HOOKUP_OBJECT (login_window, login, "login");
+  GLADE_HOOKUP_OBJECT (login_window, mdp, "mdp");
   GLADE_HOOKUP_OBJECT (login_window, labellogin, "labellogin");
   GLADE_HOOKUP_OBJECT (login_window, label2, "label2");
-  GLADE_HOOKUP_OBJECT (login_window, button1, "button1");
   GLADE_HOOKUP_OBJECT (login_window, label3, "label3");
+  GLADE_HOOKUP_OBJECT (login_window, connecter, "connecter");
+  GLADE_HOOKUP_OBJECT (login_window, message_login, "message_login");
 
   return login_window;
 }
@@ -114,11 +125,11 @@ create_panneau_admin_window (void)
   GtkWidget *image15;
   GtkWidget *button18;
   GtkWidget *image16;
-  GtkWidget *button19;
   GtkWidget *image12;
   GtkWidget *image13;
   GtkWidget *button16;
-  GtkWidget *button17;
+  GtkWidget *button19;
+  GtkWidget *go_admin;
 
   panneau_admin_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_size_request (panneau_admin_window, 920, 510);
@@ -167,11 +178,6 @@ create_panneau_admin_window (void)
   gtk_fixed_put (GTK_FIXED (fixed2), image16, 704, 264);
   gtk_widget_set_size_request (image16, 40, 37);
 
-  button19 = gtk_button_new_with_mnemonic (_("Deconnecter"));
-  gtk_widget_show (button19);
-  gtk_fixed_put (GTK_FIXED (fixed2), button19, 784, 72);
-  gtk_widget_set_size_request (button19, 98, 24);
-
   image12 = create_pixmap (panneau_admin_window, "admin_pannel(1).png");
   gtk_widget_show (image12);
   gtk_fixed_put (GTK_FIXED (fixed2), image12, 152, 0);
@@ -187,10 +193,19 @@ create_panneau_admin_window (void)
   gtk_fixed_put (GTK_FIXED (fixed2), button16, 352, 288);
   gtk_widget_set_size_request (button16, 208, 96);
 
-  button17 = gtk_button_new_with_mnemonic (_("Gestion des\n electeurs"));
-  gtk_widget_show (button17);
-  gtk_fixed_put (GTK_FIXED (fixed2), button17, 112, 288);
-  gtk_widget_set_size_request (button17, 176, 96);
+  button19 = gtk_button_new_with_mnemonic (_("Deconnecter"));
+  gtk_widget_show (button19);
+  gtk_fixed_put (GTK_FIXED (fixed2), button19, 784, 72);
+  gtk_widget_set_size_request (button19, 98, 24);
+
+  go_admin = gtk_button_new_with_mnemonic (_("Gestion des\n electeurs"));
+  gtk_widget_show (go_admin);
+  gtk_fixed_put (GTK_FIXED (fixed2), go_admin, 112, 288);
+  gtk_widget_set_size_request (go_admin, 176, 96);
+
+  g_signal_connect ((gpointer) go_admin, "clicked",
+                    G_CALLBACK (on_go_admin_clicked),
+                    NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (panneau_admin_window, panneau_admin_window, "panneau_admin_window");
@@ -202,11 +217,11 @@ create_panneau_admin_window (void)
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image15, "image15");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, button18, "button18");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image16, "image16");
-  GLADE_HOOKUP_OBJECT (panneau_admin_window, button19, "button19");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image12, "image12");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image13, "image13");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, button16, "button16");
-  GLADE_HOOKUP_OBJECT (panneau_admin_window, button17, "button17");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, button19, "button19");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, go_admin, "go_admin");
 
   return panneau_admin_window;
 }
@@ -1982,12 +1997,12 @@ create_admin_window (void)
   fixed26 = gtk_fixed_new ();
   gtk_widget_show (fixed26);
   gtk_container_add (GTK_CONTAINER (admin_window), fixed26);
-  gtk_widget_set_size_request (fixed26, 834, 554);
+  gtk_widget_set_size_request (fixed26, 973, 554);
 
   treeview_electeur = gtk_tree_view_new ();
   gtk_widget_show (treeview_electeur);
   gtk_fixed_put (GTK_FIXED (fixed26), treeview_electeur, 80, 168);
-  gtk_widget_set_size_request (treeview_electeur, 608, 248);
+  gtk_widget_set_size_request (treeview_electeur, 864, 272);
 
   ajouter_electeur = gtk_button_new ();
   gtk_widget_show (ajouter_electeur);
@@ -2033,7 +2048,7 @@ create_admin_window (void)
 
   actualiser_electeur = gtk_button_new ();
   gtk_widget_show (actualiser_electeur);
-  gtk_fixed_put (GTK_FIXED (fixed26), actualiser_electeur, 640, 80);
+  gtk_fixed_put (GTK_FIXED (fixed26), actualiser_electeur, 808, 80);
   gtk_widget_set_size_request (actualiser_electeur, 120, 55);
 
   alignment27 = gtk_alignment_new (0.5, 0.5, 0, 0);
@@ -2054,7 +2069,7 @@ create_admin_window (void)
 
   Deconnecter_admin = gtk_button_new ();
   gtk_widget_show (Deconnecter_admin);
-  gtk_fixed_put (GTK_FIXED (fixed26), Deconnecter_admin, 688, 8);
+  gtk_fixed_put (GTK_FIXED (fixed26), Deconnecter_admin, 808, 16);
   gtk_widget_set_size_request (Deconnecter_admin, 128, 46);
 
   alignment28 = gtk_alignment_new (0.5, 0.5, 0, 0);
@@ -2154,6 +2169,7 @@ create_ajouter_electeur_window (void)
   GtkWidget *homme_electeur;
   GSList *homme_electeur_group = NULL;
   GtkWidget *femme_electeur;
+  GtkWidget *message_ajout_electeur;
 
   ajouter_electeur_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (ajouter_electeur_window), _("ajouter electeur"));
@@ -2366,6 +2382,11 @@ create_ajouter_electeur_window (void)
   gtk_radio_button_set_group (GTK_RADIO_BUTTON (femme_electeur), homme_electeur_group);
   homme_electeur_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (femme_electeur));
 
+  message_ajout_electeur = gtk_label_new ("");
+  gtk_widget_show (message_ajout_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed27), message_ajout_electeur, 112, 16);
+  gtk_widget_set_size_request (message_ajout_electeur, 336, 48);
+
   g_signal_connect ((gpointer) annuler_electeur, "clicked",
                     G_CALLBACK (on_annuler_electeur_clicked),
                     NULL);
@@ -2413,14 +2434,15 @@ create_ajouter_electeur_window (void)
   GLADE_HOOKUP_OBJECT (ajouter_electeur_window, label144, "label144");
   GLADE_HOOKUP_OBJECT (ajouter_electeur_window, homme_electeur, "homme_electeur");
   GLADE_HOOKUP_OBJECT (ajouter_electeur_window, femme_electeur, "femme_electeur");
+  GLADE_HOOKUP_OBJECT (ajouter_electeur_window, message_ajout_electeur, "message_ajout_electeur");
 
   return ajouter_electeur_window;
 }
 
 GtkWidget*
-create_ajouter_observateur_window (void)
+create_ajouter_observateurs_window (void)
 {
-  GtkWidget *ajouter_observateur_window;
+  GtkWidget *ajouter_observateurs_window;
   GtkWidget *fixed28;
   GtkWidget *label147;
   GtkWidget *label149;
@@ -2452,13 +2474,14 @@ create_ajouter_observateur_window (void)
   GtkWidget *homme_observateur;
   GtkWidget *appartenance_observateur_combobox;
   GtkWidget *combobox4;
+  GtkWidget *message_ajout_observateur;
 
-  ajouter_observateur_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (ajouter_observateur_window), _("ajouter observateur"));
+  ajouter_observateurs_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (ajouter_observateurs_window), _("ajouter observateur"));
 
   fixed28 = gtk_fixed_new ();
   gtk_widget_show (fixed28);
-  gtk_container_add (GTK_CONTAINER (ajouter_observateur_window), fixed28);
+  gtk_container_add (GTK_CONTAINER (ajouter_observateurs_window), fixed28);
   gtk_widget_set_size_request (fixed28, 572, 634);
 
   label147 = gtk_label_new (_("Sexe:"));
@@ -2616,6 +2639,11 @@ create_ajouter_observateur_window (void)
   gtk_combo_box_append_text (GTK_COMBO_BOX (combobox4), _("Etranger"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (combobox4), _("Local"));
 
+  message_ajout_observateur = gtk_label_new ("");
+  gtk_widget_show (message_ajout_observateur);
+  gtk_fixed_put (GTK_FIXED (fixed28), message_ajout_observateur, 72, 8);
+  gtk_widget_set_size_request (message_ajout_observateur, 360, 56);
+
   g_signal_connect ((gpointer) annuler_observateur, "clicked",
                     G_CALLBACK (on_annuler_observateur_clicked),
                     NULL);
@@ -2630,39 +2658,40 @@ create_ajouter_observateur_window (void)
                     NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
-  GLADE_HOOKUP_OBJECT_NO_REF (ajouter_observateur_window, ajouter_observateur_window, "ajouter_observateur_window");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, fixed28, "fixed28");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label147, "label147");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label149, "label149");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label150, "label150");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label151, "label151");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label152, "label152");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label153, "label153");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label154, "label154");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, nom_observateur, "nom_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, prenom_observateur, "prenom_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, identifiant_observateur, "identifiant_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, num_bureau_observateur, "num_bureau_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, login_observateur, "login_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, motdepasse_observateur, "motdepasse_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label148, "label148");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, nationaliter_observateur_combobox, "nationaliter_observateur_combobox");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, annuler_observateur, "annuler_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, alignment31, "alignment31");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, hbox31, "hbox31");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, image56, "image56");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label155, "label155");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, valider_observateur, "valider_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, alignment32, "alignment32");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, hbox32, "hbox32");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, image57, "image57");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, label156, "label156");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, femme_observateur, "femme_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, homme_observateur, "homme_observateur");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, appartenance_observateur_combobox, "appartenance_observateur_combobox");
-  GLADE_HOOKUP_OBJECT (ajouter_observateur_window, combobox4, "combobox4");
+  GLADE_HOOKUP_OBJECT_NO_REF (ajouter_observateurs_window, ajouter_observateurs_window, "ajouter_observateurs_window");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, fixed28, "fixed28");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label147, "label147");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label149, "label149");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label150, "label150");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label151, "label151");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label152, "label152");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label153, "label153");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label154, "label154");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, nom_observateur, "nom_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, prenom_observateur, "prenom_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, identifiant_observateur, "identifiant_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, num_bureau_observateur, "num_bureau_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, login_observateur, "login_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, motdepasse_observateur, "motdepasse_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label148, "label148");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, nationaliter_observateur_combobox, "nationaliter_observateur_combobox");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, annuler_observateur, "annuler_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, alignment31, "alignment31");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, hbox31, "hbox31");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, image56, "image56");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label155, "label155");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, valider_observateur, "valider_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, alignment32, "alignment32");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, hbox32, "hbox32");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, image57, "image57");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, label156, "label156");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, femme_observateur, "femme_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, homme_observateur, "homme_observateur");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, appartenance_observateur_combobox, "appartenance_observateur_combobox");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, combobox4, "combobox4");
+  GLADE_HOOKUP_OBJECT (ajouter_observateurs_window, message_ajout_observateur, "message_ajout_observateur");
 
-  return ajouter_observateur_window;
+  return ajouter_observateurs_window;
 }
 
 GtkWidget*
@@ -2709,6 +2738,8 @@ create_edit_electeur_window (void)
   GtkWidget *femme_modif_electeur;
   GtkWidget *modif_mm_electeur;
   GtkWidget *modif_jj_electeur;
+  GtkWidget *message_recherche_electeur;
+  GtkWidget *message_edit_electeur;
 
   edit_electeur_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (edit_electeur_window), _("modifier electeur"));
@@ -2808,7 +2839,7 @@ create_edit_electeur_window (void)
   modif_nom_electeur = gtk_entry_new ();
   gtk_widget_show (modif_nom_electeur);
   gtk_fixed_put (GTK_FIXED (fixed29), modif_nom_electeur, 208, 72);
-  gtk_widget_set_size_request (modif_nom_electeur, 160, 27);
+  gtk_widget_set_size_request (modif_nom_electeur, 160, 32);
   gtk_entry_set_invisible_char (GTK_ENTRY (modif_nom_electeur), 8226);
 
   recherche_id_electeur = gtk_entry_new ();
@@ -2953,6 +2984,16 @@ create_edit_electeur_window (void)
   gtk_combo_box_append_text (GTK_COMBO_BOX (modif_jj_electeur), _("30"));
   gtk_combo_box_append_text (GTK_COMBO_BOX (modif_jj_electeur), _("31"));
 
+  message_recherche_electeur = gtk_label_new ("");
+  gtk_widget_show (message_recherche_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed29), message_recherche_electeur, 176, 48);
+  gtk_widget_set_size_request (message_recherche_electeur, 201, 22);
+
+  message_edit_electeur = gtk_label_new ("");
+  gtk_widget_show (message_edit_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed29), message_edit_electeur, 200, 496);
+  gtk_widget_set_size_request (message_edit_electeur, 265, 35);
+
   g_signal_connect ((gpointer) modifier_electeur, "clicked",
                     G_CALLBACK (on_modifier_electeur_clicked),
                     NULL);
@@ -3010,6 +3051,8 @@ create_edit_electeur_window (void)
   GLADE_HOOKUP_OBJECT (edit_electeur_window, femme_modif_electeur, "femme_modif_electeur");
   GLADE_HOOKUP_OBJECT (edit_electeur_window, modif_mm_electeur, "modif_mm_electeur");
   GLADE_HOOKUP_OBJECT (edit_electeur_window, modif_jj_electeur, "modif_jj_electeur");
+  GLADE_HOOKUP_OBJECT (edit_electeur_window, message_recherche_electeur, "message_recherche_electeur");
+  GLADE_HOOKUP_OBJECT (edit_electeur_window, message_edit_electeur, "message_edit_electeur");
 
   return edit_electeur_window;
 }
@@ -3056,6 +3099,8 @@ create_edit_observateur_window (void)
   GtkWidget *hbox39;
   GtkWidget *image64;
   GtkWidget *label183;
+  GtkWidget *message_rechercher_electeur;
+  GtkWidget *message_edit_electeur;
 
   edit_observateur_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (edit_observateur_window), _("modifier observateur"));
@@ -3252,6 +3297,16 @@ create_edit_observateur_window (void)
   gtk_widget_show (label183);
   gtk_box_pack_start (GTK_BOX (hbox39), label183, FALSE, FALSE, 0);
 
+  message_rechercher_electeur = gtk_label_new ("");
+  gtk_widget_show (message_rechercher_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed30), message_rechercher_electeur, 144, 48);
+  gtk_widget_set_size_request (message_rechercher_electeur, 226, 20);
+
+  message_edit_electeur = gtk_label_new ("");
+  gtk_widget_show (message_edit_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed30), message_edit_electeur, 216, 504);
+  gtk_widget_set_size_request (message_edit_electeur, 265, 29);
+
   g_signal_connect ((gpointer) modfier_observateur, "clicked",
                     G_CALLBACK (on_modfier_observateur_clicked),
                     NULL);
@@ -3301,6 +3356,8 @@ create_edit_observateur_window (void)
   GLADE_HOOKUP_OBJECT (edit_observateur_window, hbox39, "hbox39");
   GLADE_HOOKUP_OBJECT (edit_observateur_window, image64, "image64");
   GLADE_HOOKUP_OBJECT (edit_observateur_window, label183, "label183");
+  GLADE_HOOKUP_OBJECT (edit_observateur_window, message_rechercher_electeur, "message_rechercher_electeur");
+  GLADE_HOOKUP_OBJECT (edit_observateur_window, message_edit_electeur, "message_edit_electeur");
 
   return edit_observateur_window;
 }

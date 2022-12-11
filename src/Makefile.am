@@ -11,7 +11,12 @@ interface_SOURCES = \
 	main.c \
 	support.c support.h \
 	interface.c interface.h \
-	callbacks.c callbacks.h
+	callbacks.c callbacks.h \
+	login.c login.h \
+	electeur.c electeur.h \
+	observateur.c observateur.h \
+	treeview.c treeview.h \
+	lecture.c lecture.h 
 
 interface_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 

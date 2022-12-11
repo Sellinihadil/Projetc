@@ -39,7 +39,7 @@
       </child>
 
       <child>
-	<widget class="GtkEntry" id="Login">
+	<widget class="GtkEntry" id="login">
 	  <property name="width_request">300</property>
 	  <property name="height_request">30</property>
 	  <property name="visible">True</property>
@@ -59,7 +59,7 @@
       </child>
 
       <child>
-	<widget class="GtkEntry" id="mot_de_passe">
+	<widget class="GtkEntry" id="mdp">
 	  <property name="width_request">300</property>
 	  <property name="height_request">30</property>
 	  <property name="visible">True</property>
@@ -131,23 +131,6 @@
       </child>
 
       <child>
-	<widget class="GtkButton" id="button1">
-	  <property name="width_request">128</property>
-	  <property name="height_request">40</property>
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Se connecter</property>
-	  <property name="use_underline">True</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="focus_on_click">True</property>
-	</widget>
-	<packing>
-	  <property name="x">184</property>
-	  <property name="y">296</property>
-	</packing>
-      </child>
-
-      <child>
 	<widget class="GtkLabel" id="label3">
 	  <property name="width_request">496</property>
 	  <property name="height_request">40</property>
@@ -170,6 +153,50 @@
 	<packing>
 	  <property name="x">0</property>
 	  <property name="y">32</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkButton" id="connecter">
+	  <property name="width_request">128</property>
+	  <property name="height_request">40</property>
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="yes">Se connecter</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="on_connecter_clicked" last_modification_time="Sun, 11 Dec 2022 21:02:09 GMT"/>
+	</widget>
+	<packing>
+	  <property name="x">184</property>
+	  <property name="y">296</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_login">
+	  <property name="width_request">280</property>
+	  <property name="height_request">32</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">112</property>
+	  <property name="y">264</property>
 	</packing>
       </child>
     </widget>
@@ -346,23 +373,6 @@
       </child>
 
       <child>
-	<widget class="GtkButton" id="button19">
-	  <property name="width_request">98</property>
-	  <property name="height_request">24</property>
-	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="label" translatable="yes">Deconnecter</property>
-	  <property name="use_underline">True</property>
-	  <property name="relief">GTK_RELIEF_NORMAL</property>
-	  <property name="focus_on_click">True</property>
-	</widget>
-	<packing>
-	  <property name="x">784</property>
-	  <property name="y">72</property>
-	</packing>
-      </child>
-
-      <child>
 	<widget class="GtkImage" id="image12">
 	  <property name="width_request">640</property>
 	  <property name="height_request">136</property>
@@ -414,7 +424,24 @@
       </child>
 
       <child>
-	<widget class="GtkButton" id="button17">
+	<widget class="GtkButton" id="button19">
+	  <property name="width_request">98</property>
+	  <property name="height_request">24</property>
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+	  <property name="label" translatable="yes">Deconnecter</property>
+	  <property name="use_underline">True</property>
+	  <property name="relief">GTK_RELIEF_NORMAL</property>
+	  <property name="focus_on_click">True</property>
+	</widget>
+	<packing>
+	  <property name="x">784</property>
+	  <property name="y">72</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkButton" id="go_admin">
 	  <property name="width_request">176</property>
 	  <property name="height_request">96</property>
 	  <property name="visible">True</property>
@@ -424,6 +451,7 @@
 	  <property name="use_underline">True</property>
 	  <property name="relief">GTK_RELIEF_NORMAL</property>
 	  <property name="focus_on_click">True</property>
+	  <signal name="clicked" handler="on_go_admin_clicked" last_modification_time="Sun, 11 Dec 2022 20:40:59 GMT"/>
 	</widget>
 	<packing>
 	  <property name="x">112</property>
@@ -4602,14 +4630,14 @@
 
   <child>
     <widget class="GtkFixed" id="fixed26">
-      <property name="width_request">834</property>
+      <property name="width_request">973</property>
       <property name="height_request">554</property>
       <property name="visible">True</property>
 
       <child>
 	<widget class="GtkTreeView" id="treeview_electeur">
-	  <property name="width_request">608</property>
-	  <property name="height_request">248</property>
+	  <property name="width_request">864</property>
+	  <property name="height_request">272</property>
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="headers_visible">True</property>
@@ -4861,7 +4889,7 @@
 	  </child>
 	</widget>
 	<packing>
-	  <property name="x">640</property>
+	  <property name="x">808</property>
 	  <property name="y">80</property>
 	</packing>
       </child>
@@ -4941,8 +4969,8 @@
 	  </child>
 	</widget>
 	<packing>
-	  <property name="x">688</property>
-	  <property name="y">8</property>
+	  <property name="x">808</property>
+	  <property name="y">16</property>
 	</packing>
       </child>
     </widget>
@@ -5638,11 +5666,37 @@ Decembre</property>
 	  <property name="y">216</property>
 	</packing>
       </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_ajout_electeur">
+	  <property name="width_request">336</property>
+	  <property name="height_request">48</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">112</property>
+	  <property name="y">16</property>
+	</packing>
+      </child>
     </widget>
   </child>
 </widget>
 
-<widget class="GtkWindow" id="ajouter_observateur_window">
+<widget class="GtkWindow" id="ajouter_observateurs_window">
   <property name="visible">True</property>
   <property name="title" translatable="yes">ajouter observateur</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -6255,6 +6309,32 @@ Local</property>
 	  <property name="y">160</property>
 	</packing>
       </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_ajout_observateur">
+	  <property name="width_request">360</property>
+	  <property name="height_request">56</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">72</property>
+	  <property name="y">8</property>
+	</packing>
+      </child>
     </widget>
   </child>
 </widget>
@@ -6658,7 +6738,7 @@ Local</property>
       <child>
 	<widget class="GtkEntry" id="modif_nom_electeur">
 	  <property name="width_request">160</property>
-	  <property name="height_request">27</property>
+	  <property name="height_request">32</property>
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="editable">True</property>
@@ -7072,6 +7152,58 @@ Decembre</property>
 	<packing>
 	  <property name="x">208</property>
 	  <property name="y">166</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_recherche_electeur">
+	  <property name="width_request">201</property>
+	  <property name="height_request">22</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">176</property>
+	  <property name="y">48</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_edit_electeur">
+	  <property name="width_request">265</property>
+	  <property name="height_request">35</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">200</property>
+	  <property name="y">496</property>
 	</packing>
       </child>
     </widget>
@@ -7813,6 +7945,58 @@ Organisation mondiale</property>
 	<packing>
 	  <property name="x">400</property>
 	  <property name="y">16</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_rechercher_electeur">
+	  <property name="width_request">226</property>
+	  <property name="height_request">20</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">144</property>
+	  <property name="y">48</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkLabel" id="message_edit_electeur">
+	  <property name="width_request">265</property>
+	  <property name="height_request">29</property>
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes"></property>
+	  <property name="use_underline">False</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_LEFT</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
+	</widget>
+	<packing>
+	  <property name="x">216</property>
+	  <property name="y">504</property>
 	</packing>
       </child>
     </widget>
