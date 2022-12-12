@@ -10,6 +10,7 @@
 #include "support.h"
 #include "electeur.h"
 #include "observateur.h"
+#include "stat.h"
 int sexe = 0;
 void
 on_modifier_activate                   (GtkMenuItem     *menuitem,
@@ -732,3 +733,38 @@ void on_connecter_clicked(GtkWidget *objet_graphique, gpointer user_data)
     break;
   }
 }
+
+void
+on_afficher_stat_clicked (GtkWidget *objet_graphique, gpointer user_data)
+{
+
+  GtkWidget *stat_window;
+  GtkWidget *output1;
+  
+  stat_window = create_stat ();
+  gtk_widget_show (stat_window);
+
+  output1 = lookup_widget(objet_graphique, "taux_participant_electeur");
+  float i;
+  i= TPE("electeur.txt");
+  char ml[20];
+  sprintf(ml, "%.2f", i);
+  strcat(ml,"%");
+  gtk_label_set_text(GTK_LABEL(output1), ml);
+
+}
+
+
+void
+on_retour_clicked (GtkWidget *objet_graphique, gpointer user_data)
+{
+  GtkWidget *stat_window;
+  GtkWidget *panneau;
+  stat_window = lookup_widget(objet_graphique, "stat");
+  gtk_widget_hide(stat_window);
+  panneau = create_panneau_admin_window;
+  gtk_widget_show (panneau);
+
+
+}
+

@@ -116,3 +116,9 @@ on_go_admin_clicked                   (GtkWidget *objet_graphique, gpointer user
 
 void
 on_connecter_clicked                  (GtkWidget *objet_graphique, gpointer user_data);
+
+void
+on_afficher_stat_clicked (GtkWidget *objet_graphique, gpointer user_data);
+
+void
+on_retour_clicked (GtkWidget *objet_graphique, gpointer user_data);

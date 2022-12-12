@@ -130,6 +130,11 @@ create_panneau_admin_window (void)
   GtkWidget *button16;
   GtkWidget *button19;
   GtkWidget *go_admin;
+  GtkWidget *afficher_stat;
+  GtkWidget *alignment44;
+  GtkWidget *hbox44;
+  GtkWidget *image69;
+  GtkWidget *label188;
 
   panneau_admin_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_size_request (panneau_admin_window, 920, 510);
@@ -203,8 +208,32 @@ create_panneau_admin_window (void)
   gtk_fixed_put (GTK_FIXED (fixed2), go_admin, 112, 288);
   gtk_widget_set_size_request (go_admin, 176, 96);
 
+  afficher_stat = gtk_button_new ();
+  gtk_widget_show (afficher_stat);
+  gtk_fixed_put (GTK_FIXED (fixed2), afficher_stat, 120, 144);
+  gtk_widget_set_size_request (afficher_stat, 120, 40);
+
+  alignment44 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment44);
+  gtk_container_add (GTK_CONTAINER (afficher_stat), alignment44);
+
+  hbox44 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox44);
+  gtk_container_add (GTK_CONTAINER (alignment44), hbox44);
+
+  image69 = gtk_image_new_from_stock ("gtk-info", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image69);
+  gtk_box_pack_start (GTK_BOX (hbox44), image69, FALSE, FALSE, 0);
+
+  label188 = gtk_label_new_with_mnemonic (_("Statistiques"));
+  gtk_widget_show (label188);
+  gtk_box_pack_start (GTK_BOX (hbox44), label188, FALSE, FALSE, 0);
+
   g_signal_connect ((gpointer) go_admin, "clicked",
                     G_CALLBACK (on_go_admin_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) afficher_stat, "clicked",
+                    G_CALLBACK (on_afficher_stat_clicked),
                     NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
@@ -222,6 +251,11 @@ create_panneau_admin_window (void)
   GLADE_HOOKUP_OBJECT (panneau_admin_window, button16, "button16");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, button19, "button19");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, go_admin, "go_admin");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, afficher_stat, "afficher_stat");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, alignment44, "alignment44");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, hbox44, "hbox44");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, image69, "image69");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, label188, "label188");
 
   return panneau_admin_window;
 }
@@ -1997,12 +2031,12 @@ create_admin_window (void)
   fixed26 = gtk_fixed_new ();
   gtk_widget_show (fixed26);
   gtk_container_add (GTK_CONTAINER (admin_window), fixed26);
-  gtk_widget_set_size_request (fixed26, 834, 554);
+  gtk_widget_set_size_request (fixed26, 973, 554);
 
   treeview_electeur = gtk_tree_view_new ();
   gtk_widget_show (treeview_electeur);
   gtk_fixed_put (GTK_FIXED (fixed26), treeview_electeur, 80, 168);
-  gtk_widget_set_size_request (treeview_electeur, 608, 248);
+  gtk_widget_set_size_request (treeview_electeur, 864, 272);
 
   ajouter_electeur = gtk_button_new ();
   gtk_widget_show (ajouter_electeur);
@@ -2048,7 +2082,7 @@ create_admin_window (void)
 
   actualiser_electeur = gtk_button_new ();
   gtk_widget_show (actualiser_electeur);
-  gtk_fixed_put (GTK_FIXED (fixed26), actualiser_electeur, 640, 80);
+  gtk_fixed_put (GTK_FIXED (fixed26), actualiser_electeur, 808, 80);
   gtk_widget_set_size_request (actualiser_electeur, 120, 55);
 
   alignment27 = gtk_alignment_new (0.5, 0.5, 0, 0);
@@ -2069,7 +2103,7 @@ create_admin_window (void)
 
   Deconnecter_admin = gtk_button_new ();
   gtk_widget_show (Deconnecter_admin);
-  gtk_fixed_put (GTK_FIXED (fixed26), Deconnecter_admin, 688, 8);
+  gtk_fixed_put (GTK_FIXED (fixed26), Deconnecter_admin, 808, 16);
   gtk_widget_set_size_request (Deconnecter_admin, 128, 46);
 
   alignment28 = gtk_alignment_new (0.5, 0.5, 0, 0);
@@ -3528,5 +3562,96 @@ create_agent_window (void)
   GLADE_HOOKUP_OBJECT (agent_window, label186, "label186");
 
   return agent_window;
+}
+
+GtkWidget*
+create_stat (void)
+{
+  GtkWidget *stat;
+  GtkWidget *fixed32;
+  GtkWidget *label200;
+  GtkWidget *label201;
+  GtkWidget *label202;
+  GtkWidget *retour;
+  GtkWidget *label189;
+  GtkWidget *taux_participant_homme;
+  GtkWidget *taux_participant_femmes;
+  GtkWidget *taux_vote_blanc;
+  GtkWidget *taux_participant_electeur;
+
+  stat = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_widget_set_size_request (stat, 730, 301);
+  gtk_window_set_title (GTK_WINDOW (stat), _("Statistiques"));
+  gtk_window_set_default_size (GTK_WINDOW (stat), 731, 400);
+  gtk_window_set_resizable (GTK_WINDOW (stat), FALSE);
+
+  fixed32 = gtk_fixed_new ();
+  gtk_widget_show (fixed32);
+  gtk_container_add (GTK_CONTAINER (stat), fixed32);
+  gtk_widget_set_size_request (fixed32, 442, 708);
+
+  label200 = gtk_label_new (_("Le taux de participation des Hommes :"));
+  gtk_widget_show (label200);
+  gtk_fixed_put (GTK_FIXED (fixed32), label200, 40, 120);
+  gtk_widget_set_size_request (label200, 288, 48);
+
+  label201 = gtk_label_new (_("Le taux de participation des Femmes :"));
+  gtk_widget_show (label201);
+  gtk_fixed_put (GTK_FIXED (fixed32), label201, 40, 168);
+  gtk_widget_set_size_request (label201, 288, 48);
+
+  label202 = gtk_label_new (_("Le taux de votes blancs :"));
+  gtk_widget_show (label202);
+  gtk_fixed_put (GTK_FIXED (fixed32), label202, 8, 216);
+  gtk_widget_set_size_request (label202, 256, 48);
+
+  retour = gtk_button_new_with_mnemonic (_("Retour "));
+  gtk_widget_show (retour);
+  gtk_fixed_put (GTK_FIXED (fixed32), retour, 568, 32);
+  gtk_widget_set_size_request (retour, 74, 29);
+
+  label189 = gtk_label_new (_("Le taux de participation des \303\251lecteurs :"));
+  gtk_widget_show (label189);
+  gtk_fixed_put (GTK_FIXED (fixed32), label189, 40, 72);
+  gtk_widget_set_size_request (label189, 288, 48);
+
+  taux_participant_homme = gtk_label_new ("");
+  gtk_widget_show (taux_participant_homme);
+  gtk_fixed_put (GTK_FIXED (fixed32), taux_participant_homme, 376, 128);
+  gtk_widget_set_size_request (taux_participant_homme, 64, 33);
+
+  taux_participant_femmes = gtk_label_new ("");
+  gtk_widget_show (taux_participant_femmes);
+  gtk_fixed_put (GTK_FIXED (fixed32), taux_participant_femmes, 376, 168);
+  gtk_widget_set_size_request (taux_participant_femmes, 64, 41);
+
+  taux_vote_blanc = gtk_label_new ("");
+  gtk_widget_show (taux_vote_blanc);
+  gtk_fixed_put (GTK_FIXED (fixed32), taux_vote_blanc, 376, 208);
+  gtk_widget_set_size_request (taux_vote_blanc, 64, 41);
+
+  taux_participant_electeur = gtk_label_new ("");
+  gtk_widget_show (taux_participant_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed32), taux_participant_electeur, 368, 80);
+  gtk_widget_set_size_request (taux_participant_electeur, 80, 33);
+
+  g_signal_connect ((gpointer) retour, "clicked",
+                    G_CALLBACK (on_retour_clicked),
+                    NULL);
+
+  /* Store pointers to all widgets, for use by lookup_widget(). */
+  GLADE_HOOKUP_OBJECT_NO_REF (stat, stat, "stat");
+  GLADE_HOOKUP_OBJECT (stat, fixed32, "fixed32");
+  GLADE_HOOKUP_OBJECT (stat, label200, "label200");
+  GLADE_HOOKUP_OBJECT (stat, label201, "label201");
+  GLADE_HOOKUP_OBJECT (stat, label202, "label202");
+  GLADE_HOOKUP_OBJECT (stat, retour, "retour");
+  GLADE_HOOKUP_OBJECT (stat, label189, "label189");
+  GLADE_HOOKUP_OBJECT (stat, taux_participant_homme, "taux_participant_homme");
+  GLADE_HOOKUP_OBJECT (stat, taux_participant_femmes, "taux_participant_femmes");
+  GLADE_HOOKUP_OBJECT (stat, taux_vote_blanc, "taux_vote_blanc");
+  GLADE_HOOKUP_OBJECT (stat, taux_participant_electeur, "taux_participant_electeur");
+
+  return stat;
 }
 
