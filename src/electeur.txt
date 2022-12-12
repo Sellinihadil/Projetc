@@ -1,0 +1,9 @@
+1 11 azer azer med hach 03 01 2010 femme 11 -1 
+2 1111 gjhk ghjk med hach 01 01 22 homme 2 -1 
+4 1234 moha moha azerazer azerrez 03 07 200 homme 1111 -1 
+6 222 hello hello ahmed boudhina 01 01 2222 homme 2 -1 
+7 3 hi hi hello hello 01 01 2222 homme 3 -1 
+8 9999 mohaa mohaa med hachicha 01 01 2000 homme 13 -1 
+9 123456 123 123 ahmed boudhina 01 01 1234 homme 12 -1 
+10 1234 kill machine jhgkj kgjkj 01 01 1234 homme 123 -1 
+11 1246743 iheb 12345 iheb belhaj 01 01 1111 homme 1 -1 
