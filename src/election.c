@@ -309,7 +309,7 @@ void showElection(GtkWidget *list , int elId){
         gtk_tree_view_append_column(GTK_TREE_VIEW(list),column);
 
         renderer = gtk_cell_renderer_text_new();
-        column = gtk_tree_view_column_new_with_attributes("n° councillors" , renderer , "text" , NBR_COUNCILLORS , NULL);
+        column = gtk_tree_view_column_new_with_attributes("n° conseillers" , renderer , "text" , NBR_COUNCILLORS , NULL);
         gtk_tree_view_append_column(GTK_TREE_VIEW(list),column);
     }
         store = gtk_list_store_new(COLUMNS , G_TYPE_STRING , G_TYPE_STRING , G_TYPE_STRING , G_TYPE_STRING , G_TYPE_STRING);
@@ -410,12 +410,6 @@ void emptyListView(GtkWidget *list){
     GtkListStore *store;
 
     store = NULL;
-
-    char id[10];
-    char date[10];
-    char municipality[20];
-    char  nbr_habitants[20];
-    char nbr_councillors[10];
 
     store = gtk_tree_view_get_model(GTK_TREE_VIEW(list));
 

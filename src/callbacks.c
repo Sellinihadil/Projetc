@@ -13,7 +13,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "election.h"
-
+#include "stat.h"
 
 int sexe = 0;
 
@@ -90,6 +90,16 @@ void on_actualiser_electeur_clicked(GtkWidget *objet_graphique, gpointer user_da
 
    Admin_window = create_admin_window ();
    gtk_widget_show (Admin_window);
+
+ /*  GtkWidget *ListView;
+  ListView = lookup_widget(objet_graphique, "treeview_electeur");
+  FILE *f;
+
+  emptyElecteurTreeView(ListView);
+  electeur1 T[200];
+    
+  lecture_electeur(f,T);
+  affichageelecteur(ListView,T); */
 }
 
 
@@ -941,7 +951,7 @@ on_electionForm_show                   (GtkWidget       *widget,
 
     GtkWidget *electionDateCalendar;
     electionDateCalendar = lookup_widget(widget , "electionDateCalendar");
-    gtk_calendar_select_month (GTK_CALENDAR(electionDateCalendar),e.date.month,e.date.year);
+    gtk_calendar_select_month (GTK_CALENDAR(electionDateCalendar),e.date.month-1,e.date.year);
     gtk_calendar_select_day (GTK_CALENDAR(electionDateCalendar) , e.date.day);
 
 
@@ -1106,7 +1116,7 @@ on_electionListView_row_activated      (GtkTreeView     *treeview,
     GtkTreeModel *model = gtk_tree_view_get_model(treeview);
 
     if(gtk_tree_model_get_iter(model,&iter,path)){
-        gtk_tree_model_get(model, &iter,0,&id,1,&date,2,&municipality,3,&nbr_habitants,4,&nbr_councillors);
+        gtk_tree_model_get(model, &iter,0,&id,1,&date,2,&municipality,3,&nbr_habitants,4,&nbr_councillors,-1);
 
         FILE *f = fopen("logs.txt" , "a");
 
@@ -1300,5 +1310,128 @@ on_electionRedirectBtn_clicked         (GtkButton       *button,
   gtk_widget_hide (adminWindow);
   electionWindow =  create_adminPannel ();
   gtk_widget_show (electionWindow);
+}
+
+
+void
+on_statsWindow_show                    (GtkWidget       *widget,
+                                        gpointer         user_data)
+{
+  GtkWidget *TPE_label , 
+    *TPH_label , 
+    *TPF_label , 
+    *TVB_label,
+    *AgeMoy_label , 
+    *NbrObs_label,
+    *TOL_label,
+    *TOI_label;
+
+  float  TPH_val = 0; 
+  float  TPF_val = 0;
+  float  TOL_val = 0;
+  float  TOI_val = 0;
+
+  char TPE_val_str[100];
+  char AgeMoy_val_str[100];
+  char TVB_val_str[100];
+  char NbrObs_str[100];
+  char TPF_val_str[100];
+  char TPH_val_str[100];
+  char TOL_val_str[100];
+  char TOI_val_str[100];
+
+
+   TPHF("electeur.txt",&TPH_val ,&TPF_val);
+  taux_observateur("observateur.txt",&TOL_val,&TOI_val);
+
+  sprintf(TPE_val_str , "%.2f" , TPE("electeur.txt")*100);
+  sprintf(AgeMoy_val_str , "%d" , (int)agemoyen("electeur.txt")) ;
+  sprintf(TVB_val_str , "%.2f" , NVB("electeur.txt")*100);
+  sprintf(TPH_val_str , "%.2f" , TPH_val*100);    
+  sprintf(TPF_val_str , "%.2f" , TPF_val*100);    
+  sprintf(TOL_val_str , "%.2f" , TOL_val*100);    
+  sprintf(TOI_val_str , "%.2f" , TOI_val*100);    
+  sprintf(NbrObs_str , "%d" , nbobservateur("observateur.txt"));     
+
+  TPE_label = lookup_widget(widget,"TPE_label");
+  TPH_label = lookup_widget(widget,"TPH_label");
+  TPF_label = lookup_widget(widget,"TPF_label");
+  TVB_label = lookup_widget(widget,"TVB_label");
+  AgeMoy_label = lookup_widget(widget,"AgeMoy_label");
+  NbrObs_label = lookup_widget(widget,"NbrObs_label");
+  TOL_label = lookup_widget(widget,"TOL_label");
+  TOI_label = lookup_widget(widget,"TOI_label");
+
+  char *markup;
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(TPE_val_str," %"));
+  gtk_label_set_markup(GTK_LABEL(TPE_label),markup);
+  
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(TPH_val_str," %"));
+  gtk_label_set_markup(GTK_LABEL(TPH_label),markup);
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(TPF_val_str," %"));
+  gtk_label_set_markup(GTK_LABEL(TPF_label),markup);
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(TVB_val_str," %"));
+  gtk_label_set_markup(GTK_LABEL(TVB_label),markup);
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(TOL_val_str," %"));
+  gtk_label_set_markup(GTK_LABEL(TOL_label),markup);
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(TOI_val_str," %"));
+  gtk_label_set_markup(GTK_LABEL(TOI_label),markup);
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+     strcat(AgeMoy_val_str, " ans"));
+  gtk_label_set_markup(GTK_LABEL(AgeMoy_label),markup);
+
+  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",NbrObs_str);
+  gtk_label_set_markup(GTK_LABEL(NbrObs_label),markup);
+
+
+}
+
+
+void
+on_backStatsBtn_clicked                (GtkButton       *button,
+                                        gpointer         user_data)
+{
+
+  GtkWidget *adminWindow;
+  GtkWidget *statWindow;
+  statWindow = lookup_widget(GTK_WIDGET(button), "statsWindow");
+  gtk_widget_hide (statWindow);
+  adminWindow =  create_panneau_admin_window ();
+  gtk_widget_show (adminWindow);
+
+}
+
+
+void
+on_openStatsBtn_clicked                (GtkButton       *button,
+                                        gpointer         user_data)
+{
+  GtkWidget *adminWindow;
+  GtkWidget *statWindow;
+  adminWindow = lookup_widget(GTK_WIDGET(button), "panneau_admin_window");
+  gtk_widget_hide (adminWindow);
+  statWindow =  create_statsWindow ();
+  gtk_widget_show (statWindow);
+}
+
+
+void
+on_about_clicked                       (GtkButton       *button,
+                                        gpointer         user_data)
+{
+  GtkWidget *aboutWindow =  create_aboutApp ();
+  gtk_widget_show (aboutWindow);
 }
 

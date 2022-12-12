@@ -236,3 +236,19 @@ void
 on_electionRedirectBtn_clicked         (GtkButton       *button,
                                         gpointer         user_data);
 
+
+void
+on_statsWindow_show                    (GtkWidget       *widget,
+                                        gpointer         user_data);
+
+void
+on_backStatsBtn_clicked                (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_openStatsBtn_clicked                (GtkButton       *button,
+                                        gpointer         user_data);
+
+void
+on_about_clicked                       (GtkButton       *button,
+                                        gpointer         user_data);

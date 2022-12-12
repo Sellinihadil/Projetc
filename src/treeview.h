@@ -39,7 +39,7 @@ void affichageelecteur (GtkWidget *treeview_electeur, electeur1 T[]);
 static GtkTreeModel * create_and_fill_model_observateur (GtkWidget *treeview_observateur,observateur1 T[]);
 static GtkWidget * create_view_and_model_observateur (GtkWidget *treeview_observateur, observateur1 T[]);
 void affichageobservateur (GtkWidget *treeview_observateur, observateur1 T[]);
-
+void emptyElecteurTreeView(GtkWidget*);
 
 
 

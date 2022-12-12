@@ -27,3 +27,4 @@ GtkWidget* create_ajouter_observateurs_window (void);
 GtkWidget* create_edit_electeur_window (void);
 GtkWidget* create_edit_observateur_window (void);
 GtkWidget* create_agent_window (void);
+GtkWidget* create_statsWindow (void);

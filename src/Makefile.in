@@ -102,7 +102,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_interface_OBJECTS = main.$(OBJEXT) support.$(OBJEXT) \
 	interface.$(OBJEXT) callbacks.$(OBJEXT) login.$(OBJEXT) \
 	electeur.$(OBJEXT) observateur.$(OBJEXT) treeview.$(OBJEXT) \
-	lecture.$(OBJEXT) election.$(OBJEXT)
+	lecture.$(OBJEXT) election.$(OBJEXT) stat.$(OBJEXT)
 interface_OBJECTS = $(am_interface_OBJECTS)
 am__DEPENDENCIES_1 =
 interface_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -289,7 +289,8 @@ interface_SOURCES = \
 	observateur.c observateur.h \
 	treeview.c treeview.h \
 	lecture.c lecture.h \
-	election.c election.h
+	election.c election.h \
+	stat.c stat.h
 
 interface_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 all: all-am
@@ -386,6 +387,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/login.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/observateur.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/support.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/treeview.Po@am__quote@
 

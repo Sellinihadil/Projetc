@@ -35,13 +35,16 @@ create_panneau_admin_window (void)
   GtkWidget *image15;
   GtkWidget *image16;
   GtkWidget *button16;
-  GtkWidget *go_admin;
   GtkWidget *electionRedirectBtn;
   GtkWidget *image13;
   GtkWidget *label74;
   GtkWidget *label72;
   GtkWidget *button19;
+  GtkWidget *go_admin;
   GtkWidget *label192;
+  GtkWidget *openStatsBtn;
+  GtkWidget *about;
+  GtkWidget *image71;
 
   panneau_admin_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_size_request (panneau_admin_window, 895, 441);
@@ -73,11 +76,6 @@ create_panneau_admin_window (void)
   gtk_fixed_put (GTK_FIXED (fixed2), button16, 352, 288);
   gtk_widget_set_size_request (button16, 208, 96);
 
-  go_admin = gtk_button_new_with_mnemonic (_("Gestion des\n electeurs"));
-  gtk_widget_show (go_admin);
-  gtk_fixed_put (GTK_FIXED (fixed2), go_admin, 112, 288);
-  gtk_widget_set_size_request (go_admin, 176, 96);
-
   electionRedirectBtn = gtk_button_new_with_mnemonic (_("Gestion des\n   elections"));
   gtk_widget_show (electionRedirectBtn);
   gtk_fixed_put (GTK_FIXED (fixed2), electionRedirectBtn, 624, 288);
@@ -106,17 +104,42 @@ create_panneau_admin_window (void)
   gtk_fixed_put (GTK_FIXED (fixed2), button19, 768, 72);
   gtk_widget_set_size_request (button19, 98, 24);
 
+  go_admin = gtk_button_new_with_mnemonic (_("Gestion des\n electeurs"));
+  gtk_widget_show (go_admin);
+  gtk_fixed_put (GTK_FIXED (fixed2), go_admin, 112, 288);
+  gtk_widget_set_size_request (go_admin, 176, 96);
+
   label192 = gtk_label_new (_("<span color=\"#f00\" size=\"xx-large\"><b>Panneau Admin</b></span>"));
   gtk_widget_show (label192);
   gtk_fixed_put (GTK_FIXED (fixed2), label192, 232, 48);
   gtk_widget_set_size_request (label192, 464, 80);
   gtk_label_set_use_markup (GTK_LABEL (label192), TRUE);
 
+  openStatsBtn = gtk_button_new_with_mnemonic (_("Statistiques"));
+  gtk_widget_show (openStatsBtn);
+  gtk_fixed_put (GTK_FIXED (fixed2), openStatsBtn, 80, 120);
+  gtk_widget_set_size_request (openStatsBtn, 136, 32);
+
+  about = gtk_button_new ();
+  gtk_widget_show (about);
+  gtk_fixed_put (GTK_FIXED (fixed2), about, 232, 72);
+  gtk_widget_set_size_request (about, 40, 40);
+
+  image71 = gtk_image_new_from_stock ("gtk-info", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image71);
+  gtk_container_add (GTK_CONTAINER (about), image71);
+
+  g_signal_connect ((gpointer) electionRedirectBtn, "clicked",
+                    G_CALLBACK (on_electionRedirectBtn_clicked),
+                    NULL);
   g_signal_connect ((gpointer) go_admin, "clicked",
                     G_CALLBACK (on_go_admin_clicked),
                     NULL);
-  g_signal_connect ((gpointer) electionRedirectBtn, "clicked",
-                    G_CALLBACK (on_electionRedirectBtn_clicked),
+  g_signal_connect ((gpointer) openStatsBtn, "clicked",
+                    G_CALLBACK (on_openStatsBtn_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) about, "clicked",
+                    G_CALLBACK (on_about_clicked),
                     NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
@@ -126,13 +149,16 @@ create_panneau_admin_window (void)
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image15, "image15");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image16, "image16");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, button16, "button16");
-  GLADE_HOOKUP_OBJECT (panneau_admin_window, go_admin, "go_admin");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, electionRedirectBtn, "electionRedirectBtn");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, image13, "image13");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, label74, "label74");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, label72, "label72");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, button19, "button19");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, go_admin, "go_admin");
   GLADE_HOOKUP_OBJECT (panneau_admin_window, label192, "label192");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, openStatsBtn, "openStatsBtn");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, about, "about");
+  GLADE_HOOKUP_OBJECT (panneau_admin_window, image71, "image71");
 
   return panneau_admin_window;
 }
@@ -334,11 +360,6 @@ create_adminPannel (void)
   GtkWidget *hbox1;
   GtkWidget *image3;
   GtkWidget *label29;
-  GtkWidget *modifyElectionBtn;
-  GtkWidget *alignment2;
-  GtkWidget *hbox2;
-  GtkWidget *image4;
-  GtkWidget *label30;
   GtkWidget *addElectionBtn;
   GtkWidget *alignment3;
   GtkWidget *hbox3;
@@ -354,19 +375,12 @@ create_adminPannel (void)
   GtkWidget *label5;
   GtkWidget *image8;
   GtkWidget *DisconnectElectionBtn;
+  GtkWidget *modifyElectionBtn;
+  GtkWidget *alignment2;
+  GtkWidget *hbox2;
+  GtkWidget *image4;
+  GtkWidget *label30;
   GtkWidget *label2;
-  GtkWidget *fixed5;
-  GtkWidget *treeview3;
-  GtkWidget *label17;
-  GtkWidget *label23;
-  GtkWidget *label24;
-  GtkWidget *refreshStatsBtn;
-  GtkWidget *label18;
-  GtkWidget *label19;
-  GtkWidget *label20;
-  GtkWidget *label21;
-  GtkWidget *label22;
-  GtkWidget *label4;
 
   adminPannel = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_set_size_request (adminPannel, 850, 500);
@@ -425,27 +439,6 @@ create_adminPannel (void)
   label29 = gtk_label_new_with_mnemonic (_("Supprimer"));
   gtk_widget_show (label29);
   gtk_box_pack_start (GTK_BOX (hbox1), label29, FALSE, FALSE, 0);
-
-  modifyElectionBtn = gtk_button_new ();
-  gtk_widget_show (modifyElectionBtn);
-  gtk_fixed_put (GTK_FIXED (fixed3), modifyElectionBtn, 456, 432);
-  gtk_widget_set_size_request (modifyElectionBtn, 104, 40);
-
-  alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment2);
-  gtk_container_add (GTK_CONTAINER (modifyElectionBtn), alignment2);
-
-  hbox2 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox2);
-  gtk_container_add (GTK_CONTAINER (alignment2), hbox2);
-
-  image4 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image4);
-  gtk_box_pack_start (GTK_BOX (hbox2), image4, FALSE, FALSE, 0);
-
-  label30 = gtk_label_new_with_mnemonic (_("Modifier"));
-  gtk_widget_show (label30);
-  gtk_box_pack_start (GTK_BOX (hbox2), label30, FALSE, FALSE, 0);
 
   addElectionBtn = gtk_button_new ();
   gtk_widget_show (addElectionBtn);
@@ -525,76 +518,31 @@ create_adminPannel (void)
   gtk_fixed_put (GTK_FIXED (fixed3), DisconnectElectionBtn, 560, 48);
   gtk_widget_set_size_request (DisconnectElectionBtn, 112, 32);
 
+  modifyElectionBtn = gtk_button_new ();
+  gtk_widget_show (modifyElectionBtn);
+  gtk_fixed_put (GTK_FIXED (fixed3), modifyElectionBtn, 456, 432);
+  gtk_widget_set_size_request (modifyElectionBtn, 104, 40);
+
+  alignment2 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment2);
+  gtk_container_add (GTK_CONTAINER (modifyElectionBtn), alignment2);
+
+  hbox2 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox2);
+  gtk_container_add (GTK_CONTAINER (alignment2), hbox2);
+
+  image4 = gtk_image_new_from_stock ("gtk-edit", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image4);
+  gtk_box_pack_start (GTK_BOX (hbox2), image4, FALSE, FALSE, 0);
+
+  label30 = gtk_label_new_with_mnemonic (_("Modifier"));
+  gtk_widget_show (label30);
+  gtk_box_pack_start (GTK_BOX (hbox2), label30, FALSE, FALSE, 0);
+
   label2 = gtk_label_new (_("Elections"));
   gtk_widget_show (label2);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (AdminPannelTabs), gtk_notebook_get_nth_page (GTK_NOTEBOOK (AdminPannelTabs), 0), label2);
   gtk_widget_set_size_request (label2, 114, 30);
-
-  fixed5 = gtk_fixed_new ();
-  gtk_widget_show (fixed5);
-  gtk_container_add (GTK_CONTAINER (AdminPannelTabs), fixed5);
-
-  treeview3 = gtk_tree_view_new ();
-  gtk_widget_show (treeview3);
-  gtk_fixed_put (GTK_FIXED (fixed5), treeview3, 32, 56);
-  gtk_widget_set_size_request (treeview3, 640, 200);
-
-  label17 = gtk_label_new (_("Taux de participation de chaque municipalit\303\251 :"));
-  gtk_widget_show (label17);
-  gtk_fixed_put (GTK_FIXED (fixed5), label17, 16, 16);
-  gtk_widget_set_size_request (label17, 328, 32);
-
-  label23 = gtk_label_new (_("Taux de participation\n des electeurs"));
-  gtk_widget_show (label23);
-  gtk_fixed_put (GTK_FIXED (fixed5), label23, 32, 384);
-  gtk_widget_set_size_request (label23, 176, 48);
-  gtk_label_set_line_wrap (GTK_LABEL (label23), TRUE);
-
-  label24 = gtk_label_new (_("<b>87%</b>"));
-  gtk_widget_show (label24);
-  gtk_fixed_put (GTK_FIXED (fixed5), label24, 208, 408);
-  gtk_widget_set_size_request (label24, 49, 17);
-  gtk_label_set_use_markup (GTK_LABEL (label24), TRUE);
-
-  refreshStatsBtn = gtk_button_new_with_mnemonic (_("Actualiser"));
-  gtk_widget_show (refreshStatsBtn);
-  gtk_fixed_put (GTK_FIXED (fixed5), refreshStatsBtn, 568, 448);
-  gtk_widget_set_size_request (refreshStatsBtn, 104, 32);
-
-  label18 = gtk_label_new (_("Taux de votes blancs :"));
-  gtk_widget_show (label18);
-  gtk_fixed_put (GTK_FIXED (fixed5), label18, 32, 264);
-  gtk_widget_set_size_request (label18, 160, 33);
-  gtk_label_set_line_wrap (GTK_LABEL (label18), TRUE);
-
-  label19 = gtk_label_new (_("<b>12%</b>"));
-  gtk_widget_show (label19);
-  gtk_fixed_put (GTK_FIXED (fixed5), label19, 208, 272);
-  gtk_widget_set_size_request (label19, 49, 17);
-  gtk_label_set_use_markup (GTK_LABEL (label19), TRUE);
-
-  label20 = gtk_label_new (_("Taux de participation des hommes et des femmes"));
-  gtk_widget_show (label20);
-  gtk_fixed_put (GTK_FIXED (fixed5), label20, 32, 304);
-  gtk_widget_set_size_request (label20, 184, 48);
-  gtk_label_set_line_wrap (GTK_LABEL (label20), TRUE);
-
-  label21 = gtk_label_new (_("Hommes : <b>56%</b>"));
-  gtk_widget_show (label21);
-  gtk_fixed_put (GTK_FIXED (fixed5), label21, 264, 320);
-  gtk_widget_set_size_request (label21, 112, 32);
-  gtk_label_set_use_markup (GTK_LABEL (label21), TRUE);
-
-  label22 = gtk_label_new (_("Femmes : <b>34%</b>"));
-  gtk_widget_show (label22);
-  gtk_fixed_put (GTK_FIXED (fixed5), label22, 392, 320);
-  gtk_widget_set_size_request (label22, 128, 32);
-  gtk_label_set_use_markup (GTK_LABEL (label22), TRUE);
-
-  label4 = gtk_label_new (_("statistiques"));
-  gtk_widget_show (label4);
-  gtk_notebook_set_tab_label (GTK_NOTEBOOK (AdminPannelTabs), gtk_notebook_get_nth_page (GTK_NOTEBOOK (AdminPannelTabs), 1), label4);
-  gtk_widget_set_size_request (label4, -1, 30);
 
   g_signal_connect ((gpointer) adminPannel, "show",
                     G_CALLBACK (on_adminPannel_show),
@@ -611,9 +559,6 @@ create_adminPannel (void)
   g_signal_connect ((gpointer) delElectionBtn, "clicked",
                     G_CALLBACK (on_delElectionBtn_clicked),
                     NULL);
-  g_signal_connect ((gpointer) modifyElectionBtn, "clicked",
-                    G_CALLBACK (on_modifyElectionBtn_clicked),
-                    NULL);
   g_signal_connect ((gpointer) addElectionBtn, "clicked",
                     G_CALLBACK (on_addElectionBtn_clicked),
                     NULL);
@@ -626,8 +571,8 @@ create_adminPannel (void)
   g_signal_connect ((gpointer) DisconnectElectionBtn, "clicked",
                     G_CALLBACK (on_DisconnectElectionBtn_clicked),
                     NULL);
-  g_signal_connect ((gpointer) refreshStatsBtn, "clicked",
-                    G_CALLBACK (on_refreshStatsBtn_clicked),
+  g_signal_connect ((gpointer) modifyElectionBtn, "clicked",
+                    G_CALLBACK (on_modifyElectionBtn_clicked),
                     NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
@@ -643,11 +588,6 @@ create_adminPannel (void)
   GLADE_HOOKUP_OBJECT (adminPannel, hbox1, "hbox1");
   GLADE_HOOKUP_OBJECT (adminPannel, image3, "image3");
   GLADE_HOOKUP_OBJECT (adminPannel, label29, "label29");
-  GLADE_HOOKUP_OBJECT (adminPannel, modifyElectionBtn, "modifyElectionBtn");
-  GLADE_HOOKUP_OBJECT (adminPannel, alignment2, "alignment2");
-  GLADE_HOOKUP_OBJECT (adminPannel, hbox2, "hbox2");
-  GLADE_HOOKUP_OBJECT (adminPannel, image4, "image4");
-  GLADE_HOOKUP_OBJECT (adminPannel, label30, "label30");
   GLADE_HOOKUP_OBJECT (adminPannel, addElectionBtn, "addElectionBtn");
   GLADE_HOOKUP_OBJECT (adminPannel, alignment3, "alignment3");
   GLADE_HOOKUP_OBJECT (adminPannel, hbox3, "hbox3");
@@ -663,19 +603,12 @@ create_adminPannel (void)
   GLADE_HOOKUP_OBJECT (adminPannel, label5, "label5");
   GLADE_HOOKUP_OBJECT (adminPannel, image8, "image8");
   GLADE_HOOKUP_OBJECT (adminPannel, DisconnectElectionBtn, "DisconnectElectionBtn");
+  GLADE_HOOKUP_OBJECT (adminPannel, modifyElectionBtn, "modifyElectionBtn");
+  GLADE_HOOKUP_OBJECT (adminPannel, alignment2, "alignment2");
+  GLADE_HOOKUP_OBJECT (adminPannel, hbox2, "hbox2");
+  GLADE_HOOKUP_OBJECT (adminPannel, image4, "image4");
+  GLADE_HOOKUP_OBJECT (adminPannel, label30, "label30");
   GLADE_HOOKUP_OBJECT (adminPannel, label2, "label2");
-  GLADE_HOOKUP_OBJECT (adminPannel, fixed5, "fixed5");
-  GLADE_HOOKUP_OBJECT (adminPannel, treeview3, "treeview3");
-  GLADE_HOOKUP_OBJECT (adminPannel, label17, "label17");
-  GLADE_HOOKUP_OBJECT (adminPannel, label23, "label23");
-  GLADE_HOOKUP_OBJECT (adminPannel, label24, "label24");
-  GLADE_HOOKUP_OBJECT (adminPannel, refreshStatsBtn, "refreshStatsBtn");
-  GLADE_HOOKUP_OBJECT (adminPannel, label18, "label18");
-  GLADE_HOOKUP_OBJECT (adminPannel, label19, "label19");
-  GLADE_HOOKUP_OBJECT (adminPannel, label20, "label20");
-  GLADE_HOOKUP_OBJECT (adminPannel, label21, "label21");
-  GLADE_HOOKUP_OBJECT (adminPannel, label22, "label22");
-  GLADE_HOOKUP_OBJECT (adminPannel, label4, "label4");
 
   return adminPannel;
 }
@@ -1138,6 +1071,13 @@ GtkWidget*
 create_aboutApp (void)
 {
   GtkWidget *aboutApp;
+  const gchar *authors[] = {
+    "Iheb Belhadj",
+    "Ahmed Bouthina",
+    "Hadil sellini",
+    "Monia Jbeli",
+    NULL
+  };
   /* TRANSLATORS: Replace this string with your names, one name per line. */
   gchar *translators = _("translator-credits");
   GdkPixbuf *aboutApp_logo_pixbuf;
@@ -1146,10 +1086,11 @@ create_aboutApp (void)
   gtk_container_set_border_width (GTK_CONTAINER (aboutApp), 46);
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (aboutApp), VERSION);
   gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (aboutApp), _("Electi."));
-  gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (aboutApp), _("\302\251 Iheb Belhadj , all rights reserved"));
+  gtk_about_dialog_set_copyright (GTK_ABOUT_DIALOG (aboutApp), _("\302\251 grp 1 3B8 ESPRIT 2022 , all rights reserved"));
   gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (aboutApp), _("Electi is a free election management software \nto deliver secure remote voting capability"));
   gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (aboutApp), Q_("*******************************************\n* Electi.v1.0\n*******************************************\nTerms of use :\n\nThis is a free software intented for demonstration purposes.The use of this software is completely allowed including commercial use , editing source code redistributing ."));
   gtk_about_dialog_set_wrap_license (GTK_ABOUT_DIALOG (aboutApp), TRUE);
+  gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (aboutApp), authors);
   gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (aboutApp), translators);
   aboutApp_logo_pixbuf = create_pixbuf ("electi_m.png");
   gtk_about_dialog_set_logo (GTK_ABOUT_DIALOG (aboutApp), aboutApp_logo_pixbuf);
@@ -2715,11 +2656,6 @@ create_admin_window (void)
   GtkWidget *admin_window;
   GtkWidget *fixed26;
   GtkWidget *treeview_electeur;
-  GtkWidget *actualiser_electeur;
-  GtkWidget *alignment27;
-  GtkWidget *hbox27;
-  GtkWidget *image52;
-  GtkWidget *label133;
   GtkWidget *Deconnecter_admin;
   GtkWidget *alignment28;
   GtkWidget *hbox28;
@@ -2736,6 +2672,11 @@ create_admin_window (void)
   GtkWidget *image51;
   GtkWidget *label132;
   GtkWidget *image69;
+  GtkWidget *actualiser_electeur;
+  GtkWidget *alignment27;
+  GtkWidget *hbox27;
+  GtkWidget *image52;
+  GtkWidget *label133;
 
   admin_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (admin_window), _("Gestion electeurs"));
@@ -2749,27 +2690,6 @@ create_admin_window (void)
   gtk_widget_show (treeview_electeur);
   gtk_fixed_put (GTK_FIXED (fixed26), treeview_electeur, 80, 168);
   gtk_widget_set_size_request (treeview_electeur, 864, 272);
-
-  actualiser_electeur = gtk_button_new ();
-  gtk_widget_show (actualiser_electeur);
-  gtk_fixed_put (GTK_FIXED (fixed26), actualiser_electeur, 808, 80);
-  gtk_widget_set_size_request (actualiser_electeur, 120, 55);
-
-  alignment27 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment27);
-  gtk_container_add (GTK_CONTAINER (actualiser_electeur), alignment27);
-
-  hbox27 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox27);
-  gtk_container_add (GTK_CONTAINER (alignment27), hbox27);
-
-  image52 = gtk_image_new_from_stock ("gtk-refresh", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image52);
-  gtk_box_pack_start (GTK_BOX (hbox27), image52, FALSE, FALSE, 0);
-
-  label133 = gtk_label_new_with_mnemonic (_("Actualuser"));
-  gtk_widget_show (label133);
-  gtk_box_pack_start (GTK_BOX (hbox27), label133, FALSE, FALSE, 0);
 
   Deconnecter_admin = gtk_button_new ();
   gtk_widget_show (Deconnecter_admin);
@@ -2839,11 +2759,29 @@ create_admin_window (void)
   gtk_fixed_put (GTK_FIXED (fixed26), image69, 72, 24);
   gtk_widget_set_size_request (image69, 168, 96);
 
+  actualiser_electeur = gtk_button_new ();
+  gtk_widget_show (actualiser_electeur);
+  gtk_fixed_put (GTK_FIXED (fixed26), actualiser_electeur, 808, 80);
+  gtk_widget_set_size_request (actualiser_electeur, 120, 55);
+
+  alignment27 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment27);
+  gtk_container_add (GTK_CONTAINER (actualiser_electeur), alignment27);
+
+  hbox27 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox27);
+  gtk_container_add (GTK_CONTAINER (alignment27), hbox27);
+
+  image52 = gtk_image_new_from_stock ("gtk-refresh", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image52);
+  gtk_box_pack_start (GTK_BOX (hbox27), image52, FALSE, FALSE, 0);
+
+  label133 = gtk_label_new_with_mnemonic (_("Actualuser"));
+  gtk_widget_show (label133);
+  gtk_box_pack_start (GTK_BOX (hbox27), label133, FALSE, FALSE, 0);
+
   g_signal_connect ((gpointer) admin_window, "show",
                     G_CALLBACK (on_admin_window_show),
-                    NULL);
-  g_signal_connect ((gpointer) actualiser_electeur, "clicked",
-                    G_CALLBACK (on_actualiser_electeur_clicked),
                     NULL);
   g_signal_connect ((gpointer) Deconnecter_admin, "clicked",
                     G_CALLBACK (on_Deconnecter_admin_clicked),
@@ -2854,16 +2792,14 @@ create_admin_window (void)
   g_signal_connect ((gpointer) go_modifier_electeur, "clicked",
                     G_CALLBACK (on_go_modifier_electeur_clicked),
                     NULL);
+  g_signal_connect ((gpointer) actualiser_electeur, "clicked",
+                    G_CALLBACK (on_actualiser_electeur_clicked),
+                    NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (admin_window, admin_window, "admin_window");
   GLADE_HOOKUP_OBJECT (admin_window, fixed26, "fixed26");
   GLADE_HOOKUP_OBJECT (admin_window, treeview_electeur, "treeview_electeur");
-  GLADE_HOOKUP_OBJECT (admin_window, actualiser_electeur, "actualiser_electeur");
-  GLADE_HOOKUP_OBJECT (admin_window, alignment27, "alignment27");
-  GLADE_HOOKUP_OBJECT (admin_window, hbox27, "hbox27");
-  GLADE_HOOKUP_OBJECT (admin_window, image52, "image52");
-  GLADE_HOOKUP_OBJECT (admin_window, label133, "label133");
   GLADE_HOOKUP_OBJECT (admin_window, Deconnecter_admin, "Deconnecter_admin");
   GLADE_HOOKUP_OBJECT (admin_window, alignment28, "alignment28");
   GLADE_HOOKUP_OBJECT (admin_window, hbox28, "hbox28");
@@ -2880,6 +2816,11 @@ create_admin_window (void)
   GLADE_HOOKUP_OBJECT (admin_window, image51, "image51");
   GLADE_HOOKUP_OBJECT (admin_window, label132, "label132");
   GLADE_HOOKUP_OBJECT (admin_window, image69, "image69");
+  GLADE_HOOKUP_OBJECT (admin_window, actualiser_electeur, "actualiser_electeur");
+  GLADE_HOOKUP_OBJECT (admin_window, alignment27, "alignment27");
+  GLADE_HOOKUP_OBJECT (admin_window, hbox27, "hbox27");
+  GLADE_HOOKUP_OBJECT (admin_window, image52, "image52");
+  GLADE_HOOKUP_OBJECT (admin_window, label133, "label133");
 
   return admin_window;
 }
@@ -4280,5 +4221,272 @@ create_agent_window (void)
   GLADE_HOOKUP_OBJECT (agent_window, label186, "label186");
 
   return agent_window;
+}
+
+GtkWidget*
+create_statsWindow (void)
+{
+  GtkWidget *statsWindow;
+  GtkWidget *fixed32;
+  GtkWidget *image70;
+  GtkWidget *table10;
+  GtkWidget *label193;
+  GtkWidget *label194;
+  GtkWidget *label195;
+  GtkWidget *label196;
+  GtkWidget *TPE_label;
+  GtkWidget *table11;
+  GtkWidget *table12;
+  GtkWidget *label199;
+  GtkWidget *TPH_label;
+  GtkWidget *table13;
+  GtkWidget *label201;
+  GtkWidget *TPF_label;
+  GtkWidget *TVB_label;
+  GtkWidget *AgeMoy_label;
+  GtkWidget *label205;
+  GtkWidget *NbrObs_label;
+  GtkWidget *label207;
+  GtkWidget *table14;
+  GtkWidget *label208;
+  GtkWidget *TOL_label;
+  GtkWidget *label210;
+  GtkWidget *TOI_label;
+  GtkWidget *backStatsBtn;
+  GtkWidget *label212;
+
+  statsWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_widget_set_size_request (statsWindow, 681, 500);
+  gtk_window_set_title (GTK_WINDOW (statsWindow), _("stats"));
+  gtk_window_set_position (GTK_WINDOW (statsWindow), GTK_WIN_POS_CENTER);
+  gtk_window_set_resizable (GTK_WINDOW (statsWindow), FALSE);
+
+  fixed32 = gtk_fixed_new ();
+  gtk_widget_show (fixed32);
+  gtk_container_add (GTK_CONTAINER (statsWindow), fixed32);
+
+  image70 = create_pixmap (statsWindow, "electi_xs.png");
+  gtk_widget_show (image70);
+  gtk_fixed_put (GTK_FIXED (fixed32), image70, 48, 24);
+  gtk_widget_set_size_request (image70, 112, 56);
+
+  table10 = gtk_table_new (6, 2, FALSE);
+  gtk_widget_show (table10);
+  gtk_fixed_put (GTK_FIXED (fixed32), table10, 96, 128);
+  gtk_widget_set_size_request (table10, 484, 259);
+  gtk_table_set_row_spacings (GTK_TABLE (table10), 17);
+  gtk_table_set_col_spacings (GTK_TABLE (table10), 31);
+
+  label193 = gtk_label_new (_("Taux de participations \ndes electeurs"));
+  gtk_widget_show (label193);
+  gtk_table_attach (GTK_TABLE (table10), label193, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label193), 0, 0.5);
+
+  label194 = gtk_label_new (_("Taux de participationsd\nselon sexe"));
+  gtk_widget_show (label194);
+  gtk_table_attach (GTK_TABLE (table10), label194, 0, 1, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label194), 0, 0.5);
+
+  label195 = gtk_label_new (_("Taux de votes blancs"));
+  gtk_widget_show (label195);
+  gtk_table_attach (GTK_TABLE (table10), label195, 0, 1, 2, 3,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label195), 0, 0.5);
+
+  label196 = gtk_label_new (_("Age moyen des electeurs"));
+  gtk_widget_show (label196);
+  gtk_table_attach (GTK_TABLE (table10), label196, 0, 1, 3, 4,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label196), 0, 0.5);
+
+  TPE_label = gtk_label_new (_("<span size='medium' color=\"#f00\"><b>73%</b></span>"));
+  gtk_widget_show (TPE_label);
+  gtk_table_attach (GTK_TABLE (table10), TPE_label, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (TPE_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (TPE_label), 0, 0.5);
+
+  table11 = gtk_table_new (1, 2, FALSE);
+  gtk_widget_show (table11);
+  gtk_table_attach (GTK_TABLE (table10), table11, 1, 2, 1, 2,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_set_col_spacings (GTK_TABLE (table11), 28);
+
+  table12 = gtk_table_new (1, 2, FALSE);
+  gtk_widget_show (table12);
+  gtk_table_attach (GTK_TABLE (table11), table12, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+  gtk_table_set_col_spacings (GTK_TABLE (table12), 16);
+
+  label199 = gtk_label_new (_("Hommes : "));
+  gtk_widget_show (label199);
+  gtk_table_attach (GTK_TABLE (table12), label199, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label199), 0, 0.5);
+
+  TPH_label = gtk_label_new (_("<b>56%</b>"));
+  gtk_widget_show (TPH_label);
+  gtk_table_attach (GTK_TABLE (table12), TPH_label, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (TPH_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (TPH_label), 0, 0.5);
+
+  table13 = gtk_table_new (1, 2, FALSE);
+  gtk_widget_show (table13);
+  gtk_table_attach (GTK_TABLE (table11), table13, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_set_col_spacings (GTK_TABLE (table13), 22);
+
+  label201 = gtk_label_new (_("Femmes: "));
+  gtk_widget_show (label201);
+  gtk_table_attach (GTK_TABLE (table13), label201, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label201), 0, 0.5);
+
+  TPF_label = gtk_label_new (_("<b>44%</b>"));
+  gtk_widget_show (TPF_label);
+  gtk_table_attach (GTK_TABLE (table13), TPF_label, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (TPF_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (TPF_label), 0, 0.5);
+
+  TVB_label = gtk_label_new (_("<b>10%</b>"));
+  gtk_widget_show (TVB_label);
+  gtk_table_attach (GTK_TABLE (table10), TVB_label, 1, 2, 2, 3,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (TVB_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (TVB_label), 0, 0.5);
+
+  AgeMoy_label = gtk_label_new (_("<b>23 Ans</b>"));
+  gtk_widget_show (AgeMoy_label);
+  gtk_table_attach (GTK_TABLE (table10), AgeMoy_label, 1, 2, 3, 4,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (AgeMoy_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (AgeMoy_label), 0, 0.5);
+
+  label205 = gtk_label_new (_("Nombre total des\nobservateurs"));
+  gtk_widget_show (label205);
+  gtk_table_attach (GTK_TABLE (table10), label205, 0, 1, 4, 5,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label205), 0, 0.5);
+
+  NbrObs_label = gtk_label_new (_("<b>83</b>"));
+  gtk_widget_show (NbrObs_label);
+  gtk_table_attach (GTK_TABLE (table10), NbrObs_label, 1, 2, 4, 5,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (NbrObs_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (NbrObs_label), 0, 0.5);
+
+  label207 = gtk_label_new (_("Taux des observateurs \nlocaux/ Internationaux"));
+  gtk_widget_show (label207);
+  gtk_table_attach (GTK_TABLE (table10), label207, 0, 1, 5, 6,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label207), 0, 0.5);
+
+  table14 = gtk_table_new (1, 4, FALSE);
+  gtk_widget_show (table14);
+  gtk_table_attach (GTK_TABLE (table10), table14, 1, 2, 5, 6,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  gtk_table_set_col_spacings (GTK_TABLE (table14), 17);
+
+  label208 = gtk_label_new (_("Locaux"));
+  gtk_widget_show (label208);
+  gtk_table_attach (GTK_TABLE (table14), label208, 0, 1, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label208), 0, 0.5);
+
+  TOL_label = gtk_label_new (_("<b>95%</b>"));
+  gtk_widget_show (TOL_label);
+  gtk_table_attach (GTK_TABLE (table14), TOL_label, 1, 2, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (TOL_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (TOL_label), 0, 0.5);
+
+  label210 = gtk_label_new (_("Internationaux"));
+  gtk_widget_show (label210);
+  gtk_table_attach (GTK_TABLE (table14), label210, 2, 3, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_misc_set_alignment (GTK_MISC (label210), 0, 0.5);
+
+  TOI_label = gtk_label_new (_("<b>5%</b>"));
+  gtk_widget_show (TOI_label);
+  gtk_table_attach (GTK_TABLE (table14), TOI_label, 3, 4, 0, 1,
+                    (GtkAttachOptions) (GTK_FILL),
+                    (GtkAttachOptions) (0), 0, 0);
+  gtk_label_set_use_markup (GTK_LABEL (TOI_label), TRUE);
+  gtk_misc_set_alignment (GTK_MISC (TOI_label), 0, 0.5);
+
+  backStatsBtn = gtk_button_new_with_mnemonic (_("Retour"));
+  gtk_widget_show (backStatsBtn);
+  gtk_fixed_put (GTK_FIXED (fixed32), backStatsBtn, 256, 424);
+  gtk_widget_set_size_request (backStatsBtn, 168, 48);
+
+  label212 = gtk_label_new (_("<span size=\"xx-large\" color=\"#bd283c\"><tt><b>Statistiques</b></tt></span>"));
+  gtk_widget_show (label212);
+  gtk_fixed_put (GTK_FIXED (fixed32), label212, 248, 24);
+  gtk_widget_set_size_request (label212, 209, 48);
+  gtk_label_set_use_markup (GTK_LABEL (label212), TRUE);
+
+  g_signal_connect ((gpointer) statsWindow, "show",
+                    G_CALLBACK (on_statsWindow_show),
+                    NULL);
+  g_signal_connect ((gpointer) backStatsBtn, "clicked",
+                    G_CALLBACK (on_backStatsBtn_clicked),
+                    NULL);
+
+  /* Store pointers to all widgets, for use by lookup_widget(). */
+  GLADE_HOOKUP_OBJECT_NO_REF (statsWindow, statsWindow, "statsWindow");
+  GLADE_HOOKUP_OBJECT (statsWindow, fixed32, "fixed32");
+  GLADE_HOOKUP_OBJECT (statsWindow, image70, "image70");
+  GLADE_HOOKUP_OBJECT (statsWindow, table10, "table10");
+  GLADE_HOOKUP_OBJECT (statsWindow, label193, "label193");
+  GLADE_HOOKUP_OBJECT (statsWindow, label194, "label194");
+  GLADE_HOOKUP_OBJECT (statsWindow, label195, "label195");
+  GLADE_HOOKUP_OBJECT (statsWindow, label196, "label196");
+  GLADE_HOOKUP_OBJECT (statsWindow, TPE_label, "TPE_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, table11, "table11");
+  GLADE_HOOKUP_OBJECT (statsWindow, table12, "table12");
+  GLADE_HOOKUP_OBJECT (statsWindow, label199, "label199");
+  GLADE_HOOKUP_OBJECT (statsWindow, TPH_label, "TPH_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, table13, "table13");
+  GLADE_HOOKUP_OBJECT (statsWindow, label201, "label201");
+  GLADE_HOOKUP_OBJECT (statsWindow, TPF_label, "TPF_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, TVB_label, "TVB_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, AgeMoy_label, "AgeMoy_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, label205, "label205");
+  GLADE_HOOKUP_OBJECT (statsWindow, NbrObs_label, "NbrObs_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, label207, "label207");
+  GLADE_HOOKUP_OBJECT (statsWindow, table14, "table14");
+  GLADE_HOOKUP_OBJECT (statsWindow, label208, "label208");
+  GLADE_HOOKUP_OBJECT (statsWindow, TOL_label, "TOL_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, label210, "label210");
+  GLADE_HOOKUP_OBJECT (statsWindow, TOI_label, "TOI_label");
+  GLADE_HOOKUP_OBJECT (statsWindow, backStatsBtn, "backStatsBtn");
+  GLADE_HOOKUP_OBJECT (statsWindow, label212, "label212");
+
+  return statsWindow;
 }
 

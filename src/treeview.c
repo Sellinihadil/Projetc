@@ -106,6 +106,81 @@ col = gtk_tree_view_column_new();
 
 }
 
+
+void emptyElecteurTreeView(GtkWidget *treeview_electeur){
+
+  GtkTreeViewColumn   *col;
+  GtkCellRenderer *renderer;
+  GtkTreeIter iter;
+
+  GtkListStore *store;
+
+  store = NULL;
+
+  
+
+  store = gtk_tree_view_get_model(GTK_TREE_VIEW(treeview_electeur));
+
+  if(store == NULL){
+
+      
+      
+
+      /* --- Colonne 1 --- */
+      
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"Identifiant",renderer,"text", COL_id,NULL);
+
+      /* --- Colonne 2 --- */
+    col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"Nom",renderer,"text", COL_nom,NULL);
+
+      /* --- Colonne 3 --- */
+    col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"Prenom",renderer,"text", COL_prenom,NULL);
+
+      /* --- Colonne 4 --- */
+    col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"CIN",renderer,"text", COL_cin,NULL);
+
+      /* --- Colonne 5 --- */
+    col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"date de naissance",renderer,"text", COL_date,NULL);
+
+      /* --- Colonne 6 --- */
+      col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"NUM De Bureau de vote",renderer,"text", COL_num_bureau,NULL);
+
+      /* --- Colonne 7 --- */
+        col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"Login",renderer,"text", COL_username,NULL);
+
+      /* --- Colonne 8 --- */
+    col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"Mot de passe",renderer,"text", COL_password,NULL);
+
+      /* --- Colonne 9 --- */
+    col = gtk_tree_view_column_new();
+      renderer = gtk_cell_renderer_text_new ();
+      gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview_electeur),-1,"Genre",renderer,"text", COL_sexe,NULL);
+
+  }
+  store = gtk_list_store_new (9, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING/*, G_TYPE_INT*/);
+  gtk_list_store_append(store,&iter);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(treeview_electeur),GTK_TREE_MODEL(store));
+  g_object_unref(store);
+
+}
+
+
+
  /* ----------------------------------------------------- AFFICHER_LES_ELECTEURS ------------------------------------------------------------- */
 
 void affichageelecteur (GtkWidget *treeview_electeur, electeur1 T[])

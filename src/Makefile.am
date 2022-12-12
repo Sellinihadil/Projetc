@@ -17,7 +17,8 @@ interface_SOURCES = \
 	observateur.c observateur.h \
 	treeview.c treeview.h \
 	lecture.c lecture.h \
-	election.c election.h
+	election.c election.h \
+	stat.c stat.h
 
 interface_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 
