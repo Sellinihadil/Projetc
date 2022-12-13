@@ -136,7 +136,7 @@ on_searchElectionBtn_clicked           (GtkButton       *button,
                                         gpointer         user_data);
 
 void
-on_DisconnectElectionBtn_clicked       (GtkButton       *button,
+on_DisconnectElectionBtn_clicked       (GtkWidget       *button,
                                         gpointer         user_data);
 
 void

@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include "election.h"
 #include "stat.h"
+#include "controle_saisie.h"
 
 int sexe = 0;
 
@@ -165,9 +166,9 @@ void on_valider_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data)
   int datejour = gtk_combo_box_get_active(GTK_COMBO_BOX(input3)) + 1;
   sprintf(el.Date.jour, "%.2d", datejour);
 
-  char msg[6];
+  char msg[20];
   int nouveau_id = auto_incre_id_electeur();
-  char no_id[8];
+  char no_id[10];
   sprintf(no_id, "%d", nouveau_id);
   strcpy(el.nom, gtk_entry_get_text(GTK_ENTRY(input1)));
   strcpy(el.prenom, gtk_entry_get_text(GTK_ENTRY(input2)));
@@ -180,7 +181,7 @@ void on_valider_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data)
   strcpy(el.password, gtk_entry_get_text(GTK_ENTRY(input11)));
   genre(sexe, msg);
   strcpy(el.sexe, msg);
-  if (verifierexistant(el.username) != 0)
+  if ((verifierexistant(el.username) != 0)&&(controle_saisie_numero(el.cin)==1)&&(controle_saisie_annee(el.Date.annee)==1))
   {
     ajouter_electeur(el);
     gtk_label_set_text(GTK_LABEL(popup), "Ajouter avec succées");
@@ -188,12 +189,11 @@ void on_valider_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data)
     valider = lookup_widget(objet_graphique, "ajouter_electeur_window");
     gtk_widget_hide(valider);
     GtkWidget *admin;
-    admin = create_admin_window();
-    gtk_widget_show(admin);
+    
   }
   else
   {
-    gtk_label_set_text(GTK_LABEL(popup), "Erreur ajout (électeur déja existe)");
+    gtk_label_set_text(GTK_LABEL(popup), "Erreur ajout !");
   }
 
   
@@ -281,9 +281,9 @@ void on_valider_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
 
   observateur obs;
 
-  char msg[6];
+  char msg[20];
   int nouveau_id = auto_incre_id_observateur();
-  char no_id[8];
+  char no_id[20];
   sprintf(no_id, "%d", nouveau_id);
   strcpy(obs.nom, gtk_entry_get_text(GTK_ENTRY(input1)));
   strcpy(obs.prenom, gtk_entry_get_text(GTK_ENTRY(input2)));
@@ -327,6 +327,9 @@ void on_homme_observateur_toggled(GtkToggleButton *togglebutton,
 
 void on_modifier_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data)
 {
+
+
+
   GtkWidget *input;
   GtkWidget *input1;
   GtkWidget *input2;
@@ -356,7 +359,7 @@ void on_modifier_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data
   input11 = lookup_widget(objet_graphique, "modif_motdepasse");
   popup = lookup_widget(objet_graphique, "message_edit_electeur");
   electeur el;
-  char test[8];
+  char test[20];
   strcpy(test, gtk_entry_get_text(GTK_ENTRY(input)));
 
   togglebutton1 = lookup_widget(objet_graphique, "homme_modif_electeur");
@@ -375,24 +378,26 @@ void on_modifier_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data
   strcpy(el.username, gtk_entry_get_text(GTK_ENTRY(input10)));
   strcpy(el.password, gtk_entry_get_text(GTK_ENTRY(input11)));
   strcpy(el.num_bureau, gtk_entry_get_text(GTK_ENTRY(input9)));
-  char msg[6];
+  char msg[20];
   genre(sexe, msg);
   strcpy(el.sexe, msg);
-  if (strcmp(el.id, "-1") != 0)
+  
+  
+  if ((strcmp(el.id, "-1") != 0)&&(controle_saisie_annee(el.Date.annee)==1)&&(controle_saisie_numero(el.cin)==1))
   {
     modifier_electeur(el);
     gtk_label_set_text(GTK_LABEL(popup), "Modification avec succées");
     GtkWidget *modif;
-    GtkWidget *admin_window;
-    admin_window=create_admin_window();
+    
     modif=lookup_widget(objet_graphique,"edit_electeur_window");
     gtk_widget_hide(modif);
-    gtk_widget_show(admin_window);
+    
 
   }
   else
   {
     gtk_label_set_text(GTK_LABEL(popup), "Erreur Modification");
+
   }
 }
 
@@ -403,7 +408,7 @@ void on_supprimer_electeur_clicked(GtkWidget *objet_graphique, gpointer user_dat
   GtkWidget *popup;
   popup = lookup_widget(objet_graphique, "message_edit_electeur");
   input = lookup_widget(objet_graphique, "recherche_id_electeur");
-  char supprimer[8];
+  char supprimer[20];
   strcpy(supprimer, gtk_entry_get_text(GTK_ENTRY(input)));
   if (strcmp(supprimer, "-1") != 0)
   {
@@ -535,7 +540,7 @@ void on_modfier_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
   num_bureau_entry = lookup_widget(objet_graphique, "modif_numerobureau_observateur");
   togglebutton1 = lookup_widget(objet_graphique, "homme_modif_observateur");
   togglebutton2 = lookup_widget(objet_graphique, "femme_modif_observateur");
-  char id[8];
+  char id[20];
 
   strcpy(id, gtk_entry_get_text(GTK_ENTRY(input1)));
   obs = chercher_observateur(id);
@@ -563,7 +568,7 @@ void on_modfier_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
     strcpy(obs.num_bureau, gtk_entry_get_text(GTK_ENTRY(num_bureau_entry)));
     strcpy(obs.username, gtk_entry_get_text(GTK_ENTRY(username_entry)));
     strcpy(obs.password, gtk_entry_get_text(GTK_ENTRY(password_entry)));
-    char msg[6];
+    char msg[20];
     genre(sexe, msg);
     strcpy(obs.sexe, msg);
     modifier_observateur(obs);
@@ -572,7 +577,7 @@ void on_modfier_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
 
     GtkWidget *edit_observateur;
     GtkWidget *gestion;
-    gestion=create_admin_window();
+    gestion=create_agent_window();
     edit_observateur = lookup_widget(objet_graphique, "edit_observateur_window");
     gtk_widget_hide(edit_observateur);
     gtk_widget_show(gestion);
@@ -586,7 +591,7 @@ void on_supprimer_observateur_clicked(GtkWidget *objet_graphique, gpointer user_
   GtkWidget *popup;
   popup = lookup_widget(objet_graphique, "message_edit_observateur");
   input = lookup_widget(objet_graphique, "txt_chercher_observateur");
-  char supprimer[8];
+  char supprimer[20];
   strcpy(supprimer, gtk_entry_get_text(GTK_ENTRY(input)));
   if (strcmp(supprimer, "-1") != 0)
   {
@@ -637,7 +642,7 @@ void on_chercher_observateur_clicked(GtkWidget *objet_graphique, gpointer user_d
   num_bureau_entry = lookup_widget(objet_graphique, "modif_numerobureau_observateur");
   togglebutton1 = lookup_widget(objet_graphique, "homme_modif_observateur");
   togglebutton2 = lookup_widget(objet_graphique, "femme_modif_observateur");
-  char id[8];
+  char id[20];
 
   strcpy(id, gtk_entry_get_text(GTK_ENTRY(input1)));
   obs = chercher_observateur(id);
@@ -713,7 +718,7 @@ void on_ajouter_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
 
   ajouter_nouveau_observateur = create_ajouter_observateurs_window();
   gtk_widget_show(ajouter_nouveau_observateur);
-  admin_window = lookup_widget(objet_graphique, "admin_window");
+  admin_window = lookup_widget(objet_graphique, "agent_window");
   gtk_widget_hide(admin_window);
 }
 
@@ -722,7 +727,7 @@ void on_go_modifier_observateur_clicked(GtkWidget *objet_graphique, gpointer use
 {
   GtkWidget *edit_observateur;
   GtkWidget *gestion;
-  gestion=lookup_widget(objet_graphique,"admin_window");
+  gestion=lookup_widget(objet_graphique,"agent_window");
   gtk_widget_hide(gestion);
   edit_observateur = create_edit_observateur_window();
   gtk_widget_show(edit_observateur);
@@ -824,7 +829,7 @@ on_addElectionBtn_clicked              (GtkButton       *button,
 
 
 void
-on_DisconnectElectionBtn_clicked       (GtkButton       *button,
+on_DisconnectElectionBtn_clicked       (GtkWidget       *button,
                                         gpointer         user_data)
 {
   GtkWidget *electionManagementWindow;

@@ -608,7 +608,7 @@ callbacks.o: callbacks.c /usr/include/stdc-predef.h ../config.h \
  /usr/include/locale.h /usr/include/x86_64-linux-gnu/bits/locale.h \
  electeur.h observateur.h \
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdbool.h election.h stat.h \
- reclamation.h
+ reclamation.h controle_saisie.h /usr/include/ctype.h
 
 /usr/include/stdc-predef.h:
 
@@ -1979,3 +1979,7 @@ election.h:
 stat.h:
 
 reclamation.h:
+
+controle_saisie.h:
+
+/usr/include/ctype.h:

@@ -9,15 +9,15 @@ typedef struct {
 }date;
 
 typedef struct {
-	char id[8];
-	char cin[8];
+	char id[20];
+	char cin[20];
   	char username[20];
   	char password[20];
   	char nom[20];
   	char prenom[20];
   	date Date;
-  	char sexe[6];
-  	char num_bureau[5];
+  	char sexe[20];
+  	char num_bureau[10];
 	int vote;
 }electeur;
 

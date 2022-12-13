@@ -102,7 +102,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_interface_OBJECTS = main.$(OBJEXT) support.$(OBJEXT) \
 	interface.$(OBJEXT) callbacks.$(OBJEXT) login.$(OBJEXT) \
 	electeur.$(OBJEXT) observateur.$(OBJEXT) treeview.$(OBJEXT) \
-	lecture.$(OBJEXT) election.$(OBJEXT) stat.$(OBJEXT)
+	lecture.$(OBJEXT) election.$(OBJEXT) stat.$(OBJEXT) \
+	controle_saisie.$(OBJEXT)
 interface_OBJECTS = $(am_interface_OBJECTS)
 am__DEPENDENCIES_1 =
 interface_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -290,7 +291,8 @@ interface_SOURCES = \
 	treeview.c treeview.h \
 	lecture.c lecture.h \
 	election.c election.h \
-	stat.c stat.h
+	stat.c stat.h \
+	controle_saisie.c controle_saisie.h
 
 interface_LDADD = -lgtk-x11-2.0 -lgdk-x11-2.0 -lpangocairo-1.0 -latk-1.0 -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lfontconfig -lfreetype $(INTLLIBS)
 all: all-am
@@ -380,6 +382,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/callbacks.Po
+include ./$(DEPDIR)/controle_saisie.Po
 include ./$(DEPDIR)/electeur.Po
 include ./$(DEPDIR)/election.Po
 include ./$(DEPDIR)/interface.Po

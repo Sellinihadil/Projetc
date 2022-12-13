@@ -3595,6 +3595,8 @@ create_edit_observateur_window (void)
   GtkWidget *label183;
   GtkWidget *message_rechercher_electeur;
   GtkWidget *message_edit_electeur;
+  GtkWidget *message_rechercher_observateur;
+  GtkWidget *message_edit_observateur;
 
   edit_observateur_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (edit_observateur_window), _("modifier observateur"));
@@ -3801,6 +3803,16 @@ create_edit_observateur_window (void)
   gtk_fixed_put (GTK_FIXED (fixed30), message_edit_electeur, 216, 504);
   gtk_widget_set_size_request (message_edit_electeur, 265, 29);
 
+  message_rechercher_observateur = gtk_label_new ("");
+  gtk_widget_show (message_rechercher_observateur);
+  gtk_fixed_put (GTK_FIXED (fixed30), message_rechercher_observateur, 400, 64);
+  gtk_widget_set_size_request (message_rechercher_observateur, 128, 72);
+
+  message_edit_observateur = gtk_label_new ("");
+  gtk_widget_show (message_edit_observateur);
+  gtk_fixed_put (GTK_FIXED (fixed30), message_edit_observateur, 80, 544);
+  gtk_widget_set_size_request (message_edit_observateur, 208, 56);
+
   g_signal_connect ((gpointer) modfier_observateur, "clicked",
                     G_CALLBACK (on_modfier_observateur_clicked),
                     NULL);
@@ -3852,6 +3864,8 @@ create_edit_observateur_window (void)
   GLADE_HOOKUP_OBJECT (edit_observateur_window, label183, "label183");
   GLADE_HOOKUP_OBJECT (edit_observateur_window, message_rechercher_electeur, "message_rechercher_electeur");
   GLADE_HOOKUP_OBJECT (edit_observateur_window, message_edit_electeur, "message_edit_electeur");
+  GLADE_HOOKUP_OBJECT (edit_observateur_window, message_rechercher_observateur, "message_rechercher_observateur");
+  GLADE_HOOKUP_OBJECT (edit_observateur_window, message_edit_observateur, "message_edit_observateur");
 
   return edit_observateur_window;
 }
@@ -3884,7 +3898,10 @@ create_agent_window (void)
   GtkWidget *label186;
 
   agent_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_widget_set_size_request (agent_window, 1002, 606);
   gtk_window_set_title (GTK_WINDOW (agent_window), _("espace agent de bureau"));
+  gtk_window_set_default_size (GTK_WINDOW (agent_window), 1002, 606);
+  gtk_window_set_resizable (GTK_WINDOW (agent_window), FALSE);
 
   fixed31 = gtk_fixed_new ();
   gtk_widget_show (fixed31);
@@ -3893,8 +3910,8 @@ create_agent_window (void)
 
   treeview_observateur = gtk_tree_view_new ();
   gtk_widget_show (treeview_observateur);
-  gtk_fixed_put (GTK_FIXED (fixed31), treeview_observateur, 80, 168);
-  gtk_widget_set_size_request (treeview_observateur, 608, 248);
+  gtk_fixed_put (GTK_FIXED (fixed31), treeview_observateur, 40, 184);
+  gtk_widget_set_size_request (treeview_observateur, 945, 356);
 
   deconnecter_abv = gtk_button_new ();
   gtk_widget_show (deconnecter_abv);
