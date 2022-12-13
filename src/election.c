@@ -376,7 +376,7 @@ void showElections(GtkWidget *list){
         gtk_tree_view_append_column(GTK_TREE_VIEW(list),column);
 
         renderer = gtk_cell_renderer_text_new();
-        column = gtk_tree_view_column_new_with_attributes("n° councillors" , renderer , "text" , NBR_COUNCILLORS , NULL);
+        column = gtk_tree_view_column_new_with_attributes("n° counseillers" , renderer , "text" , NBR_COUNCILLORS , NULL);
         gtk_tree_view_append_column(GTK_TREE_VIEW(list),column);
     }
         store = gtk_list_store_new(COLUMNS , G_TYPE_STRING , G_TYPE_STRING , G_TYPE_STRING , G_TYPE_STRING , G_TYPE_STRING);

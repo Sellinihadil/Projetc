@@ -789,11 +789,11 @@ void
 on_addElectionBtn_clicked              (GtkButton       *button,
                                         gpointer         user_data)
 {
+    strcpy(electionFormBehavior , "add");
     GtkWidget *electionForm;
     electionForm = create_electionForm();
     gtk_widget_show (electionForm);
      
-    strcat(electionFormBehavior , "add");
 }
 
 
@@ -802,7 +802,12 @@ void
 on_DisconnectElectionBtn_clicked       (GtkButton       *button,
                                         gpointer         user_data)
 {
-
+  GtkWidget *electionManagementWindow;
+  GtkWidget *adminSpaceWindow;
+  electionManagementWindow = lookup_widget(button, "adminPannel");
+  gtk_widget_hide (electionManagementWindow);
+  adminSpaceWindow = create_panneau_admin_window ();
+  gtk_widget_show (adminSpaceWindow);
 }
 
 
@@ -937,12 +942,15 @@ on_electionForm_show                   (GtkWidget       *widget,
     GtkWidget *electionForm = lookup_widget(widget , "electionForm");
     gtk_window_set_title (GTK_WINDOW(electionForm),"modifier election");
     GtkWidget *electionFormLabel = lookup_widget(widget , "electionFormLabel");
-    char template[80] = "modifier l'election d'id :";
+    char template[80] = "modifier l'election d'ID: ";
     char idStr[10];
     sprintf(idStr, "%d", selectedElection);
 
     char *markup;
-    markup = g_markup_printf_escaped ("<b>%s</b>", strcat(template,idStr));
+    markup = g_markup_printf_escaped (
+      "<tt><span size='large'><b>%s</b></span></tt>", 
+      strcat(template,idStr)
+    );
 
     gtk_label_set_markup(GTK_LABEL(electionFormLabel),markup);
     Election e = chercherElection("elections.txt",selectedElection);
@@ -1364,35 +1372,35 @@ on_statsWindow_show                    (GtkWidget       *widget,
 
   char *markup;
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(TPE_val_str," %"));
   gtk_label_set_markup(GTK_LABEL(TPE_label),markup);
   
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(TPH_val_str," %"));
   gtk_label_set_markup(GTK_LABEL(TPH_label),markup);
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(TPF_val_str," %"));
   gtk_label_set_markup(GTK_LABEL(TPF_label),markup);
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(TVB_val_str," %"));
   gtk_label_set_markup(GTK_LABEL(TVB_label),markup);
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(TOL_val_str," %"));
   gtk_label_set_markup(GTK_LABEL(TOL_label),markup);
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(TOI_val_str," %"));
   gtk_label_set_markup(GTK_LABEL(TOI_label),markup);
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",
      strcat(AgeMoy_val_str, " ans"));
   gtk_label_set_markup(GTK_LABEL(AgeMoy_label),markup);
 
-  markup = g_markup_printf_escaped ("<span size='medium' color='#f00'><b>%s</b></span>",NbrObs_str);
+  markup = g_markup_printf_escaped ("<span size='medium' color='#330'><tt><b>%s</b></tt></span>",NbrObs_str);
   gtk_label_set_markup(GTK_LABEL(NbrObs_label),markup);
 
 
@@ -1433,5 +1441,18 @@ on_about_clicked                       (GtkButton       *button,
 {
   GtkWidget *aboutWindow =  create_aboutApp ();
   gtk_widget_show (aboutWindow);
+}
+
+
+void
+on_DisconnectAdminBtn_clicked          (GtkButton       *button,
+                                        gpointer         user_data)
+{
+  GtkWidget *adminWindow;
+  GtkWidget *loginWindow;
+  adminWindow = lookup_widget(GTK_WIDGET(button), "panneau_admin_window");
+  gtk_widget_hide (adminWindow);
+  loginWindow =  create_login_window ();
+  gtk_widget_show (loginWindow);
 }
 

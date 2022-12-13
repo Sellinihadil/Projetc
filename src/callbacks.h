@@ -252,3 +252,7 @@ on_openStatsBtn_clicked                (GtkButton       *button,
 void
 on_about_clicked                       (GtkButton       *button,
                                         gpointer         user_data);
+
+void
+on_DisconnectAdminBtn_clicked          (GtkButton       *button,
+                                        gpointer         user_data);

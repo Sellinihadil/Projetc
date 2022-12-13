@@ -3,7 +3,6 @@
  */
 
 GtkWidget* create_panneau_admin_window (void);
-GtkWidget* create_Ajout___lection (void);
 GtkWidget* create_adminPannel (void);
 GtkWidget* create_electionForm (void);
 GtkWidget* create_Confirmation (void);
@@ -12,7 +11,6 @@ GtkWidget* create_login_window (void);
 GtkWidget* create_error (void);
 GtkWidget* create_aboutApp (void);
 GtkWidget* create_splash (void);
-GtkWidget* create_Gestion_elections (void);
 GtkWidget* create_electorPannel (void);
 GtkWidget* create_ajout_liste_electoral (void);
 GtkWidget* create_Reclamation (void);
