@@ -109,9 +109,9 @@ void on_Deconnecter_admin_clicked(GtkWidget *objet_graphique, gpointer user_data
   GtkWidget *admin;
   admin = lookup_widget(objet_graphique, "admin_window");
   gtk_widget_hide(admin);
-  GtkWidget *login;
-  login = create_login_window();
-  gtk_widget_show(login);
+  GtkWidget *panneau;
+  panneau = create_panneau_admin_window();
+  gtk_widget_show(panneau);
 }
 
 
@@ -121,6 +121,9 @@ on_annuler_electeur_clicked            (GtkWidget *objet_graphique, gpointer use
    GtkWidget *ajouter_nouveau_electeur;
     ajouter_nouveau_electeur = lookup_widget(objet_graphique, "ajouter_electeur_window");
     gtk_widget_hide(ajouter_nouveau_electeur); 
+    GtkWidget *admin;
+    admin=create_admin_window();
+    gtk_widget_show(admin);
 }
 
 
@@ -379,6 +382,13 @@ void on_modifier_electeur_clicked(GtkWidget *objet_graphique, gpointer user_data
   {
     modifier_electeur(el);
     gtk_label_set_text(GTK_LABEL(popup), "Modification avec succées");
+    GtkWidget *modif;
+    GtkWidget *admin_window;
+    admin_window=create_admin_window();
+    modif=lookup_widget(objet_graphique,"edit_electeur_window");
+    gtk_widget_hide(modif);
+    gtk_widget_show(admin_window);
+
   }
   else
   {
@@ -399,6 +409,9 @@ void on_supprimer_electeur_clicked(GtkWidget *objet_graphique, gpointer user_dat
   {
     supprimer_electeur(supprimer);
     gtk_label_set_text(GTK_LABEL(popup), "Suppression avec succées");
+    GtkWidget *edit;
+    edit=lookup_widget(objet_graphique,"edit_electeur_window");
+    gtk_widget_hide(edit);
   }
   else
   {
@@ -558,8 +571,11 @@ void on_modfier_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
     gtk_label_set_text(GTK_LABEL(output2), "Champs modifier avec succès");
 
     GtkWidget *edit_observateur;
+    GtkWidget *gestion;
+    gestion=create_admin_window();
     edit_observateur = lookup_widget(objet_graphique, "edit_observateur_window");
     gtk_widget_hide(edit_observateur);
+    gtk_widget_show(gestion);
   }
 }
 
@@ -576,6 +592,12 @@ void on_supprimer_observateur_clicked(GtkWidget *objet_graphique, gpointer user_
   {
     supprimer_observateur(supprimer);
     gtk_label_set_text(GTK_LABEL(popup), "Suppression avec succées");
+    GtkWidget *agent;
+    GtkWidget *edit;
+    agent=create_agent_window();
+    edit=lookup_widget(objet_graphique,"edit_observateur_window");
+    gtk_widget_hide(edit);
+    gtk_widget_show(agent);
   }
   else
   {
@@ -699,6 +721,9 @@ void on_ajouter_observateur_clicked(GtkWidget *objet_graphique, gpointer user_da
 void on_go_modifier_observateur_clicked(GtkWidget *objet_graphique, gpointer user_data)
 {
   GtkWidget *edit_observateur;
+  GtkWidget *gestion;
+  gestion=lookup_widget(objet_graphique,"admin_window");
+  gtk_widget_hide(gestion);
   edit_observateur = create_edit_observateur_window();
   gtk_widget_show(edit_observateur);
 }
@@ -1455,4 +1480,8 @@ on_DisconnectAdminBtn_clicked          (GtkButton       *button,
   loginWindow =  create_login_window ();
   gtk_widget_show (loginWindow);
 }
+
+
+
+
 

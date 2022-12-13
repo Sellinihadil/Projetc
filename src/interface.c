@@ -2456,11 +2456,6 @@ create_admin_window (void)
   GtkWidget *admin_window;
   GtkWidget *fixed26;
   GtkWidget *treeview_electeur;
-  GtkWidget *Deconnecter_admin;
-  GtkWidget *alignment28;
-  GtkWidget *hbox28;
-  GtkWidget *image53;
-  GtkWidget *label134;
   GtkWidget *ajouter_electeur;
   GtkWidget *alignment25;
   GtkWidget *hbox25;
@@ -2477,6 +2472,11 @@ create_admin_window (void)
   GtkWidget *hbox27;
   GtkWidget *image52;
   GtkWidget *label133;
+  GtkWidget *Deconnecter_admin;
+  GtkWidget *alignment51;
+  GtkWidget *hbox51;
+  GtkWidget *image80;
+  GtkWidget *label222;
 
   admin_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (admin_window), _("Gestion electeurs"));
@@ -2491,27 +2491,6 @@ create_admin_window (void)
   gtk_widget_show (treeview_electeur);
   gtk_fixed_put (GTK_FIXED (fixed26), treeview_electeur, 80, 168);
   gtk_widget_set_size_request (treeview_electeur, 864, 272);
-
-  Deconnecter_admin = gtk_button_new ();
-  gtk_widget_show (Deconnecter_admin);
-  gtk_fixed_put (GTK_FIXED (fixed26), Deconnecter_admin, 808, 16);
-  gtk_widget_set_size_request (Deconnecter_admin, 128, 46);
-
-  alignment28 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment28);
-  gtk_container_add (GTK_CONTAINER (Deconnecter_admin), alignment28);
-
-  hbox28 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox28);
-  gtk_container_add (GTK_CONTAINER (alignment28), hbox28);
-
-  image53 = gtk_image_new_from_stock ("gtk-quit", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image53);
-  gtk_box_pack_start (GTK_BOX (hbox28), image53, FALSE, FALSE, 0);
-
-  label134 = gtk_label_new_with_mnemonic (_("D\303\251conncter"));
-  gtk_widget_show (label134);
-  gtk_box_pack_start (GTK_BOX (hbox28), label134, FALSE, FALSE, 0);
 
   ajouter_electeur = gtk_button_new ();
   gtk_widget_show (ajouter_electeur);
@@ -2581,11 +2560,29 @@ create_admin_window (void)
   gtk_widget_show (label133);
   gtk_box_pack_start (GTK_BOX (hbox27), label133, FALSE, FALSE, 0);
 
+  Deconnecter_admin = gtk_button_new ();
+  gtk_widget_show (Deconnecter_admin);
+  gtk_fixed_put (GTK_FIXED (fixed26), Deconnecter_admin, 808, 16);
+  gtk_widget_set_size_request (Deconnecter_admin, 128, 46);
+
+  alignment51 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment51);
+  gtk_container_add (GTK_CONTAINER (Deconnecter_admin), alignment51);
+
+  hbox51 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox51);
+  gtk_container_add (GTK_CONTAINER (alignment51), hbox51);
+
+  image80 = gtk_image_new_from_stock ("gtk-go-back", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image80);
+  gtk_box_pack_start (GTK_BOX (hbox51), image80, FALSE, FALSE, 0);
+
+  label222 = gtk_label_new_with_mnemonic (_("Retour"));
+  gtk_widget_show (label222);
+  gtk_box_pack_start (GTK_BOX (hbox51), label222, FALSE, FALSE, 0);
+
   g_signal_connect ((gpointer) admin_window, "show",
                     G_CALLBACK (on_admin_window_show),
-                    NULL);
-  g_signal_connect ((gpointer) Deconnecter_admin, "clicked",
-                    G_CALLBACK (on_Deconnecter_admin_clicked),
                     NULL);
   g_signal_connect ((gpointer) ajouter_electeur, "clicked",
                     G_CALLBACK (on_ajouter_electeur_clicked),
@@ -2596,16 +2593,14 @@ create_admin_window (void)
   g_signal_connect ((gpointer) actualiser_electeur, "clicked",
                     G_CALLBACK (on_actualiser_electeur_clicked),
                     NULL);
+  g_signal_connect ((gpointer) Deconnecter_admin, "clicked",
+                    G_CALLBACK (on_Deconnecter_admin_clicked),
+                    NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
   GLADE_HOOKUP_OBJECT_NO_REF (admin_window, admin_window, "admin_window");
   GLADE_HOOKUP_OBJECT (admin_window, fixed26, "fixed26");
   GLADE_HOOKUP_OBJECT (admin_window, treeview_electeur, "treeview_electeur");
-  GLADE_HOOKUP_OBJECT (admin_window, Deconnecter_admin, "Deconnecter_admin");
-  GLADE_HOOKUP_OBJECT (admin_window, alignment28, "alignment28");
-  GLADE_HOOKUP_OBJECT (admin_window, hbox28, "hbox28");
-  GLADE_HOOKUP_OBJECT (admin_window, image53, "image53");
-  GLADE_HOOKUP_OBJECT (admin_window, label134, "label134");
   GLADE_HOOKUP_OBJECT (admin_window, ajouter_electeur, "ajouter_electeur");
   GLADE_HOOKUP_OBJECT (admin_window, alignment25, "alignment25");
   GLADE_HOOKUP_OBJECT (admin_window, hbox25, "hbox25");
@@ -2622,6 +2617,11 @@ create_admin_window (void)
   GLADE_HOOKUP_OBJECT (admin_window, hbox27, "hbox27");
   GLADE_HOOKUP_OBJECT (admin_window, image52, "image52");
   GLADE_HOOKUP_OBJECT (admin_window, label133, "label133");
+  GLADE_HOOKUP_OBJECT (admin_window, Deconnecter_admin, "Deconnecter_admin");
+  GLADE_HOOKUP_OBJECT (admin_window, alignment51, "alignment51");
+  GLADE_HOOKUP_OBJECT (admin_window, hbox51, "hbox51");
+  GLADE_HOOKUP_OBJECT (admin_window, image80, "image80");
+  GLADE_HOOKUP_OBJECT (admin_window, label222, "label222");
 
   return admin_window;
 }
